@@ -1,0 +1,9 @@
+<form-validation>
+<global>
+ <constan>
+   <constant-name>phone   </constant-name>
+   <constant-value>^\d{8}\d*$ </constant-value>
+ </constan>
+</global>
+
+</form-validation>

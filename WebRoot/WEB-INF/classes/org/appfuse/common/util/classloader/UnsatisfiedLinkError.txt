@@ -1,0 +1,258 @@
+Tomcat Server的ClassLoader结构如下： 
+
+        +-----------------------------+ 
+
+        |         Bootstrap           | 
+
+        |             |               | 
+
+        |          System             | 
+
+        |             |               | 
+
+        |          Common             | 
+
+        |         /      \            | 
+
+        |     Catalina  Shared        | 
+
+        |               /    \        | 
+
+        |          WebApp1  WebApp2   | 
+
+        +-----------------------------+ 
+
+Problem Analysis:
+On application server, enterprise application starts properly the first time. If the Enterprise application
+is stopped and then started, the following error ocurrs: "Native Library already loaded in another classloader.
+" This error occurs because the JVM, for security reasons, will not allow a native library file (.so or .dll) 
+to be loaded more than once - whether by the same class or different classes. If an application is restarted 
+(which causes that app's classloader to be dropped) and a class that loaded a native library was dropped along
+with that applicaiton, the native library was recorded as having been loaded and the JVM will not allow
+the new application classloader (even if reloading the same class) to "reload" the library. Therefore,
+classes that load native libraries must be loaded by a classloader "above" the application level. 
+
+----------------------------------------------------
+jacob.dll already loaded in another classloader:
+----------------------------------------------------
+使用jacob时发生UnsatisfiedLinkError的问题 [原] 
+
+问题描述：
+    我在一个Web应用中（server是resin-ee-2.1.4）使用jacob完成word文档自动转换成pdf文档的功能（详见我另一篇日志），
+    为了保证web应用的稳定性，我提供了resin每晚自动重启的机制，方法是利用定时servlet修改resin.conf文件。但是当web应用重启后，
+    jacob会报以下错误；
+    Native Library C:\WINNT\system32\jacob.dll already loaded in another classloader
+    java.lang.UnsatisfiedLinkError: Native Library C:\WINNT\system32\jacob.dll already loaded in another classloader
+    at java.lang.ClassLoader.loadLibrary0(ClassLoader.java:1437)
+    at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1397)
+    at java.lang.Runtime.loadLibrary0(Runtime.java:788)
+    at java.lang.System.loadLibrary(System.java:832)
+    at com.jacob.com.Variant.<clinit>(Variant.java)
+    ……
+    然后转pdf的功能会彻底失效，直到手工重启resin服务。
+
+问题分析：
+    经过查看jacob源代码发现在Variant类中有一个静态方法：
+    static {
+      System.loadLibrary("jacob";
+    }
+    而UnsatisfiedLinkError错误表明jacob.dll已经被JVM的ClassLoader load了。通过查阅资料发现Web Server的自动重启机制是产生
+    这一问题的根源。当Resin重启包含jacob的这个Web应用时，会因为Variant类的语句而自动执行jacob的加载。但重启Web应用并不是重启整个
+    resin（即：上一次启动的JVM仍然存在），也就是说jacob已经被加载过了，因此系统将抛出UnsatisfiedLinkError错误。而当我们手工重启
+    resin时，则会将上一次启动的JVM关闭并重新启动，这时会正常加载jacob。
+
+问题解决：
+    Java API表明：JVM只允许一个默认的ClassLoader来load native library，同时并不提供专门的API来unload一个loaded native 
+    library，因此无法在我们的重启Web应用的代码中来手工清除已经load的jacob。为此我们必须保证在重启Web应用时不再重复加载jacob，
+    具体方法是：将jacob.jar包放到Web Server的公共lib文件夹中（如：...\resin-ee-2.1.4\lib\），而不是Web应用的lib中（如：
+    ...\WEB-INF\lib\）。经过测试，自动重启Web应用后，问题不再出现。
+
+后记：
+   虽然问题已解决，但总感觉有些不爽，毕竟没有从根源上解决。还希望看到此篇日志的网友继续研究，如果能找出unload loaded native 
+   library的方法，希望贴上来大家共享。 
+   
+   
+-------------------------------------------------------------
+java加载任意目录库文件(java load dynamic library from any path):
+------------------------------------------------------------- 
+通常我们采用J2SE API的局限性太大！例如只提供TCP/UDP以上的协议封装 不能获取更多硬件设备信息,对不同系统的特性访问(如win的注册表)等
+为了摆脱这些,SUN-JAVA提供了 类跟本地系统的另一种桥梁 JNI(java native interface)中文就是JAVA本地接口,在WIN系统上面就是采用DLL
+文件而linux是SO文件.而编写好特定的 DLL/SO 文件以后我们需要通过 System.loadLibrary 对文件进行加载 而且官方也是这样说 必须确保库
+文件的位置在类路径中，从而确保 JVM 可以访问该库文件.对 System.loadLibrary 方法进行审核后,发现没对路径进行过滤,可以加载任意目录的
+库文件~而对于JAVA-WEB安全来说,这个问题更有利用价值！库文件不需要放在容器的类路径而加载,因为一般安全的网站,容器的类路径目录都是只读,
+只有WEB目录可写...
+
+现在Java类路径在 f:\kj021320\jproject\ 下,而且有kj021320.class类 含有本地方法 有静态代码域
+public static native String getISTO();
+static{
+	System.loadLibrary("../../../kj021320");
+}
+
+而我们在目录f:\下有kj021320.dll库文件 对kj021320.class 本地方法的实现同样可以加载动态连接库.
+下面我们对它的JAVA源代码进行分析研究
+首先是System类的 loadLibrary 静态方法发起的 跟踪以下代码
+public static void loadLibrary(String libname) {
+	Runtime.getRuntime().loadLibrary0(getCallerClass(), libname);
+}
+
+看此是调用了 Runtime类的 loadLibrary0 方法.把调用此方法的类名字以及 lib名字传进去,我们再往这个方法进行跟踪
+Runtime类的
+synchronized void loadLibrary0(Class fromClass, String libname) {
+SecurityManager security = System.getSecurityManager();
+if (security != null) {
+	security.checkLink(libname); //检查是否能调用这个库文件名字
+}
+
+/*
+重点来了~注意看下面的代码 他对路径进行过滤了！可惜！win系统中
+File.separatorChar 是 \ 我们可以用 / 来跳回上一层目录 绕过他的验证
+那Linux 系统呢？不用急 我们继续往下面看
+*/
+
+if (libname.indexOf((int)File.separatorChar) != -1) {
+	throw new UnsatisfiedLinkError("Directory separator should not appear in library name: " + libname);
+}
+//这里又调用了ClassLoader 的loadLibrary方法 我们继续追踪进去
+ClassLoader.loadLibrary(fromClass, libname, false);
+}
+
+ClassLoader类:
+//这里代码有点多
+static void loadLibrary(Class fromClass, String name,boolean isAbsolute) {
+//首先判断我们上面是否有传一个类进来~~ 就是 到底是哪个类调用加载 库的方法 就把那个类传进去所以
+//fromClass 大多不会为null
+
+ClassLoader loader = (fromClass == null) ? null : fromClass.getClassLoader();
+//这里判断系统的类库路径
+if (sys_paths == null) {
+usr_paths = initializePath("java.library.path");
+sys_paths = initializePath("sun.boot.library.path");
+}
+//判断路径是不是绝对的！要是绝对路径的就直接 new File() 看到了吗？没有对name再次过滤
+//汗~~ 又调用 loadLibrary0 这个方法！ 哎！嵌套还真多
+if (isAbsolute) {
+if (loadLibrary0(fromClass, new File(name))) {
+return;
+}
+throw new UnsatisfiedLinkError("Can't load library: " + name);
+}
+if (loader != null) {
+String libfilename = loader.findLibrary(name);
+if (libfilename != null) {
+File libfile = new File(libfilename);
+if (!libfile.isAbsolute()) {
+throw new UnsatisfiedLinkError("ClassLoader.findLibrary failed to return an absolute path: " + libfilename);
+}
+if (loadLibrary0(fromClass, libfile)) {
+return;
+}
+throw new UnsatisfiedLinkError("Can't load " + libfilename);
+}
+}
+//这里是循环遍历类路径 也调用了 loadLibrary0这个方法 我们得再次跟踪进去
+for (int i = 0 ; i < sys_paths.length ; i++) {
+File libfile = new File(sys_paths[i], System.mapLibraryName(name));
+if (loadLibrary0(fromClass, libfile)) {
+return;
+}
+}
+if (loader != null) {
+for (int i = 0 ; i < usr_paths.length ; i++) {
+File libfile = new File(usr_paths[i],System.mapLibraryName(name));
+if (loadLibrary0(fromClass, libfile)) {
+return;
+}
+}
+}
+// Oops, it failed
+throw new UnsatisfiedLinkError("no " + name + " in java.library.path");
+}
+
+//看了以上的代码,很明显了！我们需要再去分析 loadLibrary0这个方法,代码更多了！看来更是重点
+
+private static boolean loadLibrary0(Class fromClass, final File file) {
+//判断文件是否存在 不存在就退出这个函数返回false
+Boolean exists = (Boolean)AccessController.doPrivileged(new PrivilegedAction() {public Object run() {return new Boolean(file.exists());}});
+if (!exists.booleanValue()) {
+return false;
+}
+//以下是获取文件的绝对路径
+String name;
+try {
+name = file.getCanonicalPath();
+} catch (IOException e) {
+return false;
+}
+//这句不分析了
+ClassLoader loader =(fromClass == null) ? null : fromClass.getClassLoader();
+//获取系统本地库的集合
+Vector libs =loader != null ? loader.nativeLibraries : systemNativeLibraries;
+//下面这个同步操作是为了避免同一个库文件在多线程下 加载多次
+synchronized (libs) {
+int size = libs.size();
+for (int i = 0; i < size; i++) {
+NativeLibrary lib = (NativeLibrary)libs.elementAt(i);
+if (name.equals(lib.name)) {
+return true;
+}
+}
+synchronized (loadedLibraryNames) {
+if (loadedLibraryNames.contains(name)) {
+throw new UnsatisfiedLinkError("Native Library " + name + " already loaded in another classloader");
+}
+int n = nativeLibraryContext.size();
+for (int i = 0; i < n; i++) {
+NativeLibrary lib = (NativeLibrary)nativeLibraryContext.elementAt(i);
+if (name.equals(lib.name)) {
+if (loader == lib.fromClass.getClassLoader()) {
+return true;
+} else {
+throw new UnsatisfiedLinkError("Native Library "+name+" is being loaded in another classloader");
+}
+}
+}
+//实例化一个本地库
+NativeLibrary lib = new NativeLibrary(fromClass, name);
+nativeLibraryContext.push(lib);
+try {
+//**************正式加载操作 NativeLibrary的load方法实现***********
+lib.load(name);
+
+} finally {
+nativeLibraryContext.pop();
+}
+if (lib.handle != 0) {
+loadedLibraryNames.addElement(name);
+libs.addElement(lib);
+return true;
+}
+return false;
+}
+}
+}
+
+以上 NativeLibrary 类是ClassLoader类的一个内部类 最终 load方法也是本地实现 具体是JVM内部的！
+分析到这里很明显 最终我们可以调用loadLibrary0 这个方法来绕过前面一大堆的验证！OK 但是loadLibrary0
+是个private方法,一般直接调用不了！对于熟悉JAVA的开发者来说！这个是小事！我们采用reflect来破解他的权限吧！
+下面静态代码实现:
+
+static
+{
+	Method llm;
+	try {
+		//获取私有的方法 loadLibrary0
+		llm = ClassLoader.class.getDeclaredMethod("loadLibrary0", new Class[]{Class.class,File.class});
+		
+		//破解权限
+		llm.setAccessible(true);
+		
+		llm.invoke(null, new Object[]{你自己的类.class,new File("DLL的绝对路径 记得加后缀")});
+		
+		/*
+		llm.invoke(null, new Object[]{ISTO.class,new File("/isto.so")});
+		*/
+	} catch (Exception e) {
+	e.printStackTrace();
+	}
+}
+这样我们就可以在WEB目录上面放库文件任意加载了

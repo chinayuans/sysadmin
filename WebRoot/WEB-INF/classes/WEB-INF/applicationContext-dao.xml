@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+  <bean id="dataSource" 
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+          <value>com.mysql.jdbc.Driver</value>
+        </property>
+       <property name="url">
+          <value>jdbc:mysql://localhost/sysadmin?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=gb2312</value>
+        </property>
+        <!-- 注意:上面的url中characterEncoding=gb2312,
+               如果不这样指定的话,中文会有问题
+             不可以<value>
+                   jdbc:mysql://localhost/equinox?
+                </value>
+            否则会报错
+         -->
+        <property name="username">
+             <value>root</value>
+        </property>
+        <property name="password">
+           <value></value>
+        </property>
+  </bean>
+  
+  
+  <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate.LocalSessionFactoryBean">
+        <property name="dataSource"><ref local="dataSource"/></property>
+        
+        <!-- hibernate对 Domain Object的审计功能 -->
+        <!-- 
+        <property name="entityInterceptor">
+           <bean id="auditLog" class="org.appfuse.service.audit.AuditLogInterceptor"></bean>        
+        </property>
+        -->
+        
+        <!-- 
+        <property name="mappingResources">
+           <list><value>org/appfuse/model/User.hbm.xml</value>
+           </list>
+        </property>
+        -->
+        
+        <property name="mappingLocations">         
+            <value>classpath*:**/*.hbm.xml</value>
+        </property>
+        
+        
+        <property name="hibernateProperties">
+        <props>
+          <prop key="hibernate.dialect">net.sf.hibernate.dialect.MySQLDialect</prop>
+          <!-- prop key="hibernate.hbm2ddl.auto">create-drop</prop-->
+        </props>
+        </property>
+  </bean>
+  
+  
+  <bean id="transactionManager"
+        class="org.springframework.orm.hibernate.HibernateTransactionManager">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+  </bean>
+  
+  
+  <!-- ========================================================== -->
+  <!-- ========================================================== -->
+  <!-- ========================================================== -->
+  <!-- ========================================================== -->
+  <!--以上定义了datasource,sessionFactory,sessionTransactionManager -->
+   
+  
+  
+  
+  
+  
+  <!-- 审计日志功能，记录日志 -->
+  <bean id="auditDAO" class="org.appfuse.dao.audit.impl.AuditLogDAOImpl_Hibernate">
+      <property name="sessionFactory"><ref local="sessionFactory"/></property>
+  </bean>
+ 
+   
+  <!--BaseDAO功能，可以复用-->
+  <bean id="baseDAO"
+        class="org.appfuse.dao.base.impl.BaseDAOImpl_Hibernate">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+  </bean>   
+  
+  <!--用户管理功能-->     
+  <bean id="userDAO"
+        class="org.appfuse.dao.sysadmin.impl.UserDAOImpl_Hibernate">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+  </bean> 
+      
+  <!-- 菜单 -->
+  <bean id="menuItemDAO"
+        class="org.appfuse.dao.sysadmin.impl.MenuItemDAOImpl_Hibernate">
+        <property name="sessionFactory"><ref local="sessionFactory"/></property>
+  </bean>  
+</beans>

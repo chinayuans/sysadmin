@@ -1,0 +1,31 @@
+根菜单数组：(0级菜单)
+root_menu[]:
+root_menu[0]={'网站首页','/','self','/iconHelp.gif','20','20','0'};
+this.items = new Array();                                                                                  
+this.caption=caption;                 //菜单名称                                                           
+this.command=command;                 //菜单对应的功能－－－－页面                                         
+this.target=target;                   //对应Frameset中哪个目标,self,parent,blank,top                       
+this.img=img;                         //菜单对应的图标  /iconHelp.gif                                      
+this.sizex=sizex;                     //图像width 20                                                       
+this.sizey=sizey;                     //图像height 20                                                      
+this.pos=pos;                         //pos=0 图像在左边，pos=1图像在右边，pos=2 图像为背景,pos=''没有图像。
+this.flag='0';                        //表明是根菜单
+this.id='';                           //id号码
+
+子菜单数组：(1级以上菜单)
+sub_menu[]:
+sub_menu[0]={'用户注册','/register.asp','self',false,'用户注册',null,'','','',''};
+this.caption=caption;        //菜单名称
+this.command=command;        //菜单对应的功能－－－－页面
+this.target=target;          //对应Frameset中哪个目标,self,parent,blank,top
+this.isline=isline;          //这一行空行，不显示任何汉字信息  false 或者true
+this.statustxt=statustxt;    //菜单的提示，将菜单提示信息显示在IE中的状态栏中。
+if(level!=null){mnumberofsub++;
+this.hasc=mnumberofsub;}    //注意：msub1,msub2,msub3如此下去生成子菜单；要生成子菜单必须以msub+顺序号命名，不可以跳过顺序号。
+this.level=level;           //null 表示在该菜单下面没有子菜单,!null表示有子菜单
+this.img=img;               //菜单对应的图标
+this.sizex=sizex;           //图像width  20
+this.sizey=sizey;           //图像height 20
+this.pos=pos;               //pos=0 图像在左边，pos=1图像在右边，pos=2 图像为背景,pos=''没有图像。
+this.flag='1';              //表明是子菜单
+this.parentMenu='';        //获得父类菜单的id号码。

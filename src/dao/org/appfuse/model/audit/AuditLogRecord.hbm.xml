@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.appfuse.model.audit.AuditLogRecord"
+        table="t_audit_logs"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.String"
+            length="32"
+        >
+            <generator class="uuid.hex">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-AuditLogRecord.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="created_time"
+            type="java.sql.Date"
+            update="true"
+            insert="true"
+            column="created_time"
+            not-null="true"
+        />
+
+        <property
+            name="entityClass"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="entityClass"
+            length="30"
+            not-null="false"
+        />
+
+        <property
+            name="entityId"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="entityId"
+            length="32"
+            not-null="false"
+        />
+
+        <property
+            name="message"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="message"
+            not-null="false"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-AuditLogRecord.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

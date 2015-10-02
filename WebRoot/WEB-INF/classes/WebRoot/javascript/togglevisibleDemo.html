@@ -1,0 +1,49 @@
+<html>
+
+<head>
+<title>ToggleVisible</title>
+<script language="javascript" src="../scripts/global.js"></script>
+</head>
+
+<!--
+ toggleDisplay(targetId);
+ toggleVisibility(targetId);
+ toggleDisplayByImage(targetID, imageID, linkImage, linkImageCollapsed); 
+ -->
+ 
+ 
+<body>
+<table>
+   <tr>
+     <td>
+        <a onclick="toggleDisplayByImage('contents','LinkImage','../images/toggle_gray_up.gif','../images/toggle_gray_down.gif'); return false;" 
+           href="#">
+           <img id="LinkImage" 
+                src="../images/toggle_gray_down.gif" 
+                alt="" border="0" />
+        </a>
+        <div id="contents" style="display:none;">
+            <p>通过图标控制显示内容或者不显示(toggleDisplayByImage(targetID, imageID, linkImage, linkImageCollapsed))</p>
+        </div>
+    </td>
+   <tr>
+     <td>
+        <a onclick="toggleDisplay('display1');" href="#">显示与不显示</a>
+        <div id="display1" style="display:none;">
+            <p>通过toggleDisplay(targetId)控制显示内容或者不显示</p>
+        </div>
+     </td>
+   </tr>
+   <tr>
+      <td>
+        <a onclick="toggleVisibility('visible1');" href="#">显示与不显示</a>
+        <div id="visible1" style="visibility:hidden;">
+            <p>通过toggleVisibility(targetId)控制显示内容或者不显示</p>
+        </div>
+      </td>
+    </tr>
+</table>
+
+
+</body>
+</html>

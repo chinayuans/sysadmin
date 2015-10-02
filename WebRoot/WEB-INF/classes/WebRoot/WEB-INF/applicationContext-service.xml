@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+
+  <!-- 以下定义了一个对serviceimpl 进行事务的控制，运用了aop的思想。 -->
+  <!-- 首先定义一个事务控制的基类，他的子类可以覆盖基类的事务设置，灵活性很大-->
+  <bean id="txProxyTemplate" abstract="true" 
+        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+          <ref bean="transactionManager"/>
+          <!-- 注意这里的ref 只可以用bean,不可以用local,因为transactionManager 在另外一个
+          applicationContext-dao.xml中定义的。
+          -->
+        </property>
+        <property name="transactionAttributes">
+            <props>
+               <prop key="save*">PROPAGATION_REQUIRED</prop>
+               <prop key="add*">PROPAGATION_REQUIRED</prop>
+               <prop key="update*">PROPAGATION_REQUIRED</prop>
+               <prop key="edit*">PROPAGATION_REQUIRED</prop>
+               <prop key="delete*">PROPAGATION_REQUIRED</prop>
+               <prop key="remove*">PROPAGATION_REQUIRED</prop>
+               <prop key="*">PROPAGATION_REQUIRED,readOnly</prop>
+            </props>
+        </property>
+  </bean>
+  
+  
+  <!-- ========================================================== -->
+  <!-- ========================================================== -->
+  <!-- ========================================================== -->
+  <!-- ========================================================== -->
+  
+  
+  
+  
+   <!-- 定义一个base service -->
+  <bean id="baseServiceTarget"
+        class="org.appfuse.service.base.impl.BaseServiceImpl">
+        <property name="baseDAO"><ref bean="baseDAO"/></property>
+        <!-- 注意这里的ref 只可以用bean,不可以用local,因为 userDAO在另外一个
+          applicationContext-dao.xml中定义的。
+          -->
+  </bean>   
+  <bean id="baseService" parent="txProxyTemplate">
+     <property name="target">
+        <ref local="baseServiceTarget"/>
+     </property>
+  </bean>
+  
+  
+  <!-- 审计日志功能 -->
+  <bean id="auditServiceTarget" 
+        class="org.appfuse.service.audit.impl.AuditServiceImpl">
+       <property name="auditDAO"><ref bean="auditDAO"/></property>
+  </bean>        
+  <bean id="auditService" parent="txProxyTemplate">
+     <property name="target">
+        <ref local="auditServiceTarget"/>
+     </property>
+  </bean>
+  
+  
+  
+  <!-- 定义一个用户管理的service implementation -->
+  <bean id="userManagerServiceTarget"
+        class="org.appfuse.service.sysadmin.impl.UserManagerServiceImpl">
+        <property name="userDAO"><ref bean="userDAO"/></property>
+        <!-- 注意这里的ref 只可以用bean,不可以用local,因为 userDAO在另外一个
+          applicationContext-dao.xml中定义的。
+          -->
+  </bean>   
+  
+  <!-- userManager为web层中正式要使用的service，包装了事务处理 -->
+  <bean id="userManagerService" parent="txProxyTemplate">
+     <property name="target">
+        <ref local="userManagerServiceTarget"/>
+     </property>
+  </bean>
+  
+  
+  
+  <!-- 定义一个 菜单管理功能-->
+  <bean id="menuItemManagerServiceTarget"
+        class="org.appfuse.service.sysadmin.impl.MenuItemManagerServiceImpl">
+        <property name="menuItemDAO"><ref bean="menuItemDAO"/></property>
+        <!-- 注意这里的ref 只可以用bean,不可以用local,因为 userDAO在另外一个
+          applicationContext-hibernate.xml中定义的。
+          -->
+  </bean>   
+    
+  <bean id="menuItemManagerService" parent="txProxyTemplate">
+     <property name="target">
+        <ref local="menuItemManagerServiceTarget"/>
+     </property>
+  </bean>
+  
+  <!-- 定义一个 处理应用异常示范 的功能-->
+  <bean id="handleServiceException" 
+   class="org.appfuse.service.handleServiceExceptionSample.impl.HandleServiceExceptionImpl">
+  </bean>
+  
+</beans>

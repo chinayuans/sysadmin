@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.appfuse.model.sysadmin.User"
+        table="t_user"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.String"
+            length="32"
+        >
+            <generator class="uuid.hex">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-User.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="user_id"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="user_id"
+            length="10"
+            not-null="true"
+        />
+
+        <property
+            name="user_name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="user_name"
+            length="30"
+            not-null="true"
+        />
+
+        <property
+            name="user_password"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="user_password"
+            length="10"
+        />
+
+        <property
+            name="firstName"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="firstName"
+            length="30"
+        />
+
+        <property
+            name="lastName"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="lastName"
+            length="30"
+        />
+
+        <many-to-one
+            name="userStatus"
+            class="org.appfuse.model.sysadmin.UserStatus"
+            cascade="save-update"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="userstatus_id"
+        />
+
+        <property
+            name="birthday"
+            type="java.sql.Date"
+            update="true"
+            insert="true"
+            column="birthday"
+        />
+
+        <property
+            name="comments"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="comments"
+        />
+
+        <component
+            name="detail"
+            class="org.appfuse.model.sysadmin.UserDetail"
+        >
+        <property
+            name="born_date"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="born_date"
+            not-null="false"
+        />
+
+        <property
+            name="degree"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="degree"
+            not-null="false"
+        />
+
+        <property
+            name="e_mail"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="e_mail"
+            not-null="false"
+        />
+
+        <property
+            name="gendar"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="gendar"
+            not-null="false"
+        />
+
+        <property
+            name="homeTelePhone"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="homeTelePhone"
+            not-null="false"
+        />
+
+        <property
+            name="id_card"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="id_card"
+            not-null="false"
+        />
+
+        <property
+            name="major"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="major"
+            not-null="false"
+        />
+
+        <property
+            name="mobilePhone"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="mobilePhone"
+            not-null="false"
+        />
+
+        </component>
+
+        <many-to-one
+            name="normalAddress"
+            class="org.appfuse.model.sysadmin.UserNormalAddress"
+            cascade="all"
+            outer-join="auto"
+            update="true"
+            insert="true"
+            column="normal_address_id"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-User.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

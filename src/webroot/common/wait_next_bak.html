@@ -1,0 +1,93 @@
+<body style="background: ;background-image: url(../images/tbl/m6.gif);">
+<table width="100%" height="100%">
+	<td height="40%" width="20%">&nbsp</td>
+	<td height="20%" width="60%">		
+			<div 
+			    style="width:600;height:40;border:5 #707888 solid;overflow:hidden ">
+			    <div style="position:absolute;top:-1;left:0" id="pimg">
+			    </div>
+			</div>
+			<div  style="font-size:14pt; color:#f4f4f4" id="abc" align="center">
+			        正在加载中，请稍候.............
+			</div>
+	</td>
+	<td height="40%" width="20%">&nbsp</td>
+</table>	
+
+
+
+<script>
+s=new Array();
+s[0]="#050626";
+s[1]="#0a0b44";
+s[2]="#0f1165";
+s[3]="#1a1d95";
+s[4]="#1c1fa7";
+s[5]="#1c20c8";
+s[6]="#060cff";
+s[7]="#2963f8";
+function ls(){
+		if (document.getElementById) {
+		   var target = document.getElementById("pimg");  
+		}
+        target.innerHTML="";
+        for(i=0;i<9;i++){
+        target.innerHTML+="<input style=\"width:30;height:30;border:0;background:"+s[i]+";margin:1\">";
+        }
+    }
+    
+function rs(){
+		if (document.getElementById) {
+		        var target = document.getElementById("pimg");  
+		}
+        target.innerHTML="";
+        for(i=9;i>-1;i--){
+        target.innerHTML+="<input style=\"width:30;height:30;border:0;background:"+s[i]+";margin:1\">";
+        }
+    }
+    
+ls();
+var g=0;sped=0;
+function str(){
+	if (document.getElementById) {
+		 var target = document.getElementById("pimg");  
+	}
+    if(target.style.pixelLeft<350&&g==0){
+    if(sped==0){
+        ls();
+        sped=1;
+        }
+    target.style.pixelLeft+=2;
+    setTimeout("str()",1);
+    return;
+    }
+    g=1;
+    if(target.style.pixelLeft>-200&&g==1){
+    if(sped==1){
+        rs();
+        sped=0;
+        }
+    target.style.pixelLeft-=2;
+    setTimeout("str()",1);
+    return;
+    }
+    g=0;
+    //str();
+}
+
+function flashs(){
+	if (document.getElementById) {
+		var target = document.getElementById("pimg");  
+	}
+	if(target.style.color=="blue"){
+	    target.style.color="red";
+	    setTimeout('flashs()',500);
+	    }
+	else{
+	    target.style.color="blue";
+	    setTimeout('flashs()',500);
+	}
+}
+flashs();
+str();
+</script>

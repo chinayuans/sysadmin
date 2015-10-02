@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.appfuse.model.sysadmin.UserNormalAddress"
+        table="t_user_normal_address"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.String"
+            length="32"
+        >
+            <generator class="uuid.hex">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-UserNormalAddress.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="city"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="city"
+        />
+
+        <property
+            name="country"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="country"
+        />
+
+        <property
+            name="province"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="province"
+        />
+
+        <property
+            name="street"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="street"
+        />
+
+        <property
+            name="zipcode"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="zipcode"
+        />
+
+        <one-to-one
+            name="user"
+            class="org.appfuse.model.sysadmin.User"
+            cascade="none"
+            outer-join="auto"
+            constrained="false"
+            property-ref="normalAddress"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-UserNormalAddress.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

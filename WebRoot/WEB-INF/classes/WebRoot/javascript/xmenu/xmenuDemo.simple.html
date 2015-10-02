@@ -1,0 +1,109 @@
+<!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+-->
+<html>
+<head>
+<title>Simple Link and Menu (WebFX)</title>
+<script type="text/javascript" src="../../scripts/xmenu/cssexpr.js"></script>
+<script type="text/javascript" src="../../scripts/xmenu/xmenu.js"></script>
+<link href="../../css/xmenu/xmenu.css" type="text/css" rel="stylesheet">
+
+<script type="text/javascript">
+//只要鼠标移动到那个'关键词'上，菜单自动出来。
+//webfxMenuUseHover	= true;
+
+webfxMenuImagePath	= "../../images/xmenu/";
+
+</script>
+</head>
+<body>
+
+<script>
+
+var myMenu = new WebFXMenu;
+myMenu.width = 150;
+for (var i = 0; i < 5; i++) {
+	myMenu.add(new WebFXMenuItem("Menu Item " + i, "javascript:alert(" + i + ")", "Tool tip to show"));
+	var tmp = new WebFXMenu;
+	for (var j = 0; j < 5; j++) {
+		tmp.add(new WebFXMenuItem("Menu Item " + i + "." + j, "javascript:alert('" + i + "." + j + "')", "Tool tip to show"));
+	}
+	myMenu.add(new WebFXMenuItem("Menu Item " + i + " (with sub)" , null, "Tool tip to show", tmp));
+	if (i < 4)
+		myMenu.add(new WebFXMenuSeparator());
+}
+
+myMenu.add(new WebFXMenuSeparator());
+var emptyMenu = new WebFXMenu;
+myMenu.add(new WebFXMenuItem("Empty Sub", null, null, emptyMenu));
+
+myMenu.add(new WebFXMenuSeparator());
+myMenu.add(new WebFXMenuItem("New Window", "javascript:void window.open('http://webfx.eae.net\', 'windowOrFrameName')"));
+
+document.write(myMenu);
+</script>
+
+<p>This page shows how a simple link can open a menu relative to it. This can be useful
+if one wants to bild their own menu bar using images or whatnot.</p>
+
+<pre>
+&lt;a href="#"
+   onfocus="if (!webfxMenuUseHover) webFXMenuHandler.showMenu(myMenu, this)"
+   onmouseover="if (webfxMenuUseHover) webFXMenuHandler.showMenu(myMenu, this)"
+   onblur="if (!webfxMenuUseHover) webFXMenuHandler.hideMenu(myMenu)"
+   onmouseout="if (webfxMenuUseHover) webFXMenuHandler.hideMenu(myMenu)"
+   onclick="return false"
+&gt;menu&lt;/a&gt;
+</pre>
+<p>This paragraph has a link that shows the a 
+
+<!-- 
+webFXMenuHandler.showMenu(menu, src, dir)
+menu: 代表要显示那个具体的菜单；
+src:  在哪个object上面进行显示；
+dir:  'vertical'  在那个object的右边水平显示
+      'horizontal' 在那个object的下方显示
+-->
+<!--主要代码-->
+<a href="#"
+	onfocus="if (!webfxMenuUseHover) webFXMenuHandler.showMenu(myMenu, this)"
+	onmouseover="if (webfxMenuUseHover) webFXMenuHandler.showMenu(myMenu, this)"
+	onblur="if (!webfxMenuUseHover) webFXMenuHandler.hideMenu(myMenu)"
+	onmouseout="if (webfxMenuUseHover) webFXMenuHandler.hideMenu(myMenu)"
+	onclick="return false">
+    menu
+</a>
+onfocus (or onmouseover if hover mode is true) and hides it onblur (or onmouseout)</p>
+<p>
+<a href="#"
+    onblur="webFXMenuHandler.hideMenu(myMenu)"
+    onclick="webFXMenuHandler.showMenu(myMenu, this,'horizontal');">
+   horizontal
+</a>
+</p> 
+<p>
+<a href="#"
+    onblur="webFXMenuHandler.hideMenu(myMenu)"
+    onclick="webFXMenuHandler.showMenu(myMenu, this,'vertical');">
+   vertical
+</a>
+</p> 
+<p>
+<a href="#"
+    onblur="webFXMenuHandler.hideMenu(myMenu)"
+    onclick="webFXMenuHandler.showMenu(myMenu, null,'horizontal');">
+    no this  horizontal
+</a>
+</p> 
+<a href="#"
+    onblur="webFXMenuHandler.hideMenu(myMenu)"
+    onclick="webFXMenuHandler.showMenu(myMenu, null,'vertical');">
+    no this  vertical
+</a>
+</p> 
+
+</body>
+
+
+</html>

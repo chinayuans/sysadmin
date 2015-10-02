@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+
+<title></title>
+
+<!-- The xtree script file -->
+<script src="../scripts/tree/xtree.js"></script>
+<!-- 
+=======特别说明如下=========
+必须明确在这个文件/javascript/xtreeDemo.html中
+../scripts/tree/xtree.js
+中导入的rootIcon        : 'images/tree/foldericon.png',
+这个images/tree/foldericon.png表示图像放置在当前目录的images/trees目录下.
+所以这种xtreeDemo.html使用方法具有一定的局限性。推荐使用下的方法。
+
+但是在另外一个文件/application/menu-styles/XTree.jsp中
+<script type="text/javascript" src="<c:url value='/scripts/tree/xtree.js'/>"></script>
+中导入的rootIcon        : 'images/tree/foldericon.png',
+这个images/tree/foldericon.png表示图像放置在应用服务器的
+某个应用服务的根目录下的images/tree/目录下，
+例如：图像放置在http://127.0.0.1:8080/sysadmin/images/tree/目录中，
+其中sysadmin为应用服务名。图像放置在应用服务为sysadmin的根目录的images/tree/目录下。
+-->
+
+<!-- The webFXCheckBoxTreeItem script file -->
+<script src="../scripts/tree/webfxcheckboxtreeitem.js"></script>
+
+<!-- Modify this file to change the way the tree looks -->
+<link type="text/css" rel="stylesheet" href="../css/tree/xtree.css">
+
+<style>
+	body { background: white; color: black; }
+	input { width: 120px; }
+</style>
+
+</head>
+<body>
+
+    
+    
+<div style="position: absolute; width: 200px; top: 0px; left: 0px; height: 100%; padding: 5px; overflow: auto;">
+
+<!-- js file containing the tree content, edit this file to alter the menu,
+     the menu will be inserted where this tag is located in the document -->
+     
+<!--这段代码在document中写tree形动态菜单,为全局javascript-->     
+<script>
+if (document.getElementById) {
+    var tree = new WebFXTree('Root');
+    tree.setBehavior('classic');
+    var a = new WebFXTreeItem('1');
+    tree.add(a);
+    var b = new WebFXTreeItem('1.1');
+    a.add(b);
+    b.add(new WebFXTreeItem('1.1.1'));
+    b.add(new WebFXTreeItem('1.1.2'));
+    b.add(new WebFXTreeItem('1.1.3'));
+    var f = new WebFXTreeItem('1.1.4');
+    b.add(f);
+    f.add(new WebFXTreeItem('1.1.4.1'));
+    f.add(new WebFXTreeItem('1.1.4.2'));
+    f.add(new WebFXTreeItem('1.1.4.3'));
+    var c = new WebFXTreeItem('1.2');
+    a.add(c);
+    c.add(new WebFXTreeItem('1.5.1'));
+    c.add(new WebFXTreeItem('1.5.2'));
+    c.add(new WebFXTreeItem('1.5.3'));
+    a.add(new WebFXTreeItem('1.3'));
+    a.add(new WebFXTreeItem('1.4'));
+    a.add(new WebFXTreeItem('1.5'));
+    var d = new WebFXTreeItem('2');
+    tree.add(d);
+    var e = new WebFXTreeItem('2.1');
+    d.add(e);
+    e.add(new WebFXTreeItem('2.1.1'));
+    e.add(new WebFXTreeItem('2.1.2'));
+    e.add(new WebFXTreeItem('2.1.3'));
+    d.add(new WebFXTreeItem('2.2'));
+    d.add(new WebFXTreeItem('2.3'));
+    d.add(new WebFXTreeItem('2.4'));
+    document.write(tree);
+}
+
+
+
+</script>
+
+</div>
+<div style="position: absolute; left: 205px; top: 10px;">
+
+<p>
+  This tree works just as the one found in the Microsoft Windows Explorer,
+  expand/collapse a tree item by double click on the icon or by single click
+  on the plus/minus symbol.<br/>Buttons below bound to the tree root.
+</p>
+<p>
+  note that there are two kinds of current item-- tree root item and tree item.
+</p>
+<p>
+	This is the method thats called when you click on a tree root item.<br/>
+	<input type="button" value="toggle()" onclick="tree.toggle();">
+</p>
+<p>
+	Pretty self explaining, expands or collapses the current item.<br/>
+	<input type="button" value="expand()" onclick="tree.getSelected().expand();">
+	<input type="button" value="collapse()" onclick="tree.getSelected().collapse();">
+</p>
+<p>
+	Expands or collapses the current item and all child items (recursive).<br/>
+	<input type="button" value="expandAll()" onclick="tree.getSelected().expandAll();">
+	<input type="button" value="collapseAll()" onclick="tree.getSelected().collapseAll();">
+</p>
+<p>
+	Expands or collapses all child items (recursive) of the current item,but not the item itself.<br/>
+	<input type="button" value="expandChildren()" onclick="tree.getSelected().expandChildren();">
+	<input type="button" value="collapseChildren()" onclick="tree.getSelected().collapseChildren();">
+</p>
+<p>
+	Returns the id of the selected item (if any)<br/>
+	<input type="button" value="alert(tree.getSelected().id);" onclick="if (tree.getSelected()) { alert(tree.getSelected().id); }" style="width: 245px;">
+</p>
+<p>
+  Add node(s) below selected, or remove the selected node.<br/>
+  <input type="button" onclick="addNode();"  style="width: 80px;" value="Add Node" />
+  <input type="button" onclick="addMidNode();"  style="width: 100px;" value="Add Mid Node" />
+  <input type="button" onclick="updateNode();"  style="width: 80px;" value="update one" />
+  <input type="button" onclick="addNodes();" style="width: 100px;" value="Add multiple" />
+  <input type="button" onclick="delNode();"  style="width: 80px;" value="Remove" />
+  <input type="button" onclick="addCheckBoxNode();"  style="width: 150px;" value="add CheckBox Node" />
+</p>
+<p>
+  print selected node information:  
+  <input type="button" onclick="getSelectedNode();"  style="width: 150px;" value="get SelectedNode" />
+  <input type="button" onclick="getParentNode();"  style="width: 150px;" value="get ParentNode" />
+  <input type="button" onclick="getchildNodes();"  style="width: 150px;" value="get childNodes" />
+</p>
+<p>
+  create a tree of explorer-style:  
+  <input type="button" onclick="createTree_explorer();"  style="width: 350px;" value="create explorer-style tree" />  
+</p>
+<p>
+  create a tree of different icons:  
+  <input type="button" onclick="createTree_Icon();"  style="width: 350px;" value="create a tree of different icons" />  
+</p>
+</div>
+
+
+</body>
+
+
+<script>
+function addNode() {
+	if (tree.getSelected()) {
+		tree.getSelected().add(new WebFXTreeItem('New'));
+	}
+}
+
+function addMidNode() {
+	if (tree.getSelected()) {
+	var openRootIcon=webFXTreeConfig.openFolderIcon;
+	var folderIcon=webFXTreeConfig.folderIcon;
+		tree.getSelected().add(new WebFXTreeItem('New',null,null,folderIcon,openRootIcon));
+	}
+}
+
+function updateNode() {
+	//采用先删除再增加的方法
+        if (tree.getSelected()) {
+		var selectedNode=tree.getSelected();
+		var parentNode=selectedNode.parentNode;
+		var childNodes=selectedNode.childNodes;
+		
+		selectedNode.remove();
+		var updateNode=new WebFXTreeItem('New');
+		updateNode.text="update";
+		parentNode.add(updateNode);
+	}
+}
+//以下函数暂时用不到。
+function updateNode2() {	
+        if (tree.getSelected()) {
+		var selectedNode=tree.getSelected();
+		selectedNode.text="update";
+		//document.recalc();		//重新计算当前文档中的全部动态属性。
+		//document.execCommand('refresh'); //刷新文档
+		alert(selectedNode.text);
+	}
+}
+function addNodes() {
+	if (tree.getSelected()) {
+		var foo = tree.getSelected().add(new WebFXTreeItem('New'));
+		var bar = foo.add(new WebFXTreeItem('Sub 1'));
+		var fbr = foo.add(new WebFXTreeItem('Sub 2'));
+	}
+}
+
+function delNode() {
+	if (tree.getSelected()) {
+		tree.getSelected().remove();
+	}
+}
+function addCheckBoxNode() {
+	if (tree.getSelected()) {
+		tree.getSelected().add(new WebFXCheckBoxTreeItem('New'));
+	}
+}
+function getSelectedNode() {
+    if (tree.getSelected()) {
+	var selectedNode=tree.getSelected();
+	alert(selectedNode);
+	var property="id="+selectedNode.id+"\r"+
+	             "text="+selectedNode.text+"\r"+
+	             "action="+selectedNode.action+"\r"+
+	             "_last="+selectedNode._last+"\r"+
+	             "open="+selectedNode.open+"\r"+
+	             "icon="+selectedNode.icon+"\r"+
+	             "openIcon="+selectedNode.openIcon+"\r"+
+	             "folder="+selectedNode.folder+"\r"+
+	             "rendered="+selectedNode.rendered+"\r"+
+	             "onSelect="+selectedNode.onSelect+"\r";
+	alert(property);
+   }
+}
+function getParentNode() {
+    //如果用户没有选中了一个指定节点，什么也不显示
+    if (tree.getSelected()) {
+	var selectedNode=tree.getSelected().parentNode;
+	alert(selectedNode);
+	var property="id="+selectedNode.id+"\r"+
+	             "text="+selectedNode.text+"\r"+
+	             "action="+selectedNode.action+"\r"+
+	             "_last="+selectedNode._last+"\r"+
+	             "open="+selectedNode.open+"\r"+
+	             "icon="+selectedNode.icon+"\r"+
+	             "openIcon="+selectedNode.openIcon+"\r"+
+	             "folder="+selectedNode.folder+"\r"+
+	             "rendered="+selectedNode.rendered+"\r"+
+	             "onSelect="+selectedNode.onSelect+"\r";
+	alert(property);
+    }
+}
+function getchildNodes() {
+    if (tree.getSelected()) {
+	var selectedNode=tree.getSelected().childNodes;
+	alert(selectedNode);
+	for(var i=0;i<selectedNode.length;i++){
+	//alert(selectedNode[i]);
+	var property="id="+selectedNode[i].id+"\r"+
+	             "text="+selectedNode[i].text+"\r"+
+	             "action="+selectedNode[i].action+"\r"+
+	             "_last="+selectedNode[i]._last+"\r"+
+	             "open="+selectedNode[i].open+"\r"+
+	             "icon="+selectedNode[i].icon+"\r"+
+	             "openIcon="+selectedNode[i].openIcon+"\r"+
+	             "folder="+selectedNode[i].folder+"\r"+
+	             "rendered="+selectedNode[i].rendered+"\r"+
+	             "onSelect="+selectedNode[i].onSelect+"\r";
+	alert(property);
+	}
+    }
+}
+function createTree_explorer(){
+	var tree = new WebFXTree('Root');
+	  /* Change the behavior of the tree */
+	  tree.setBehavior('explorer');
+	  /* Add tree item to tree */
+	  tree.add(new WebFXTreeItem('1'));
+	  /* Create a new folder and add it to tree */
+	  var folder = new WebFXTreeItem('2')
+	  tree.add(folder);
+	  /* Add tree items to folder */
+	  folder.add(new WebFXTreeItem('2.1'));
+	  folder.add(new WebFXTreeItem('2.2'));
+	  folder.add(new WebFXTreeItem('2.3'));
+	  /* Add another tree item to tree */
+	  tree.add(new WebFXTreeItem('3'));
+	  document.write(tree);
+}
+function createTree_Icon(){
+	var tree = new WebFXTree('Root');
+	  tree.setBehavior('explorer');
+	  tree.icon =webFXTreeConfig.fileIcon ;
+	  tree.add(new WebFXTreeItem('1'));
+	  var folder = new WebFXTreeItem('2')
+	  tree.add(folder);
+	  var t21 = new WebFXTreeItem('2.1');
+	  /* Change the icon */
+	  t21.icon = webFXTreeConfig.fileIcon;
+	  folder.add(t21);
+	  var t22 = new WebFXTreeItem('2.2');
+	  /* Change the icon */
+	  t22.icon = webFXTreeConfig.openFolderIcon;
+	  folder.add(t22);
+	  var t23 = new WebFXTreeItem('2.3');
+	  /* Change the icon */
+	  t23.icon = webFXTreeConfig.folderIcon;
+	  folder.add(t23);
+	  tree.add(new WebFXTreeItem('3'));
+	  document.write(tree);
+}	  
+
+</script>
+</html>

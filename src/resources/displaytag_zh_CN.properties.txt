@@ -1,0 +1,72 @@
+##Generic
+##注意：值的右边不允许有空格存在，否则会出错。
+#basic.show.header true  不可以指定值,否则会出错
+basic.show.header true
+basic.empty.showtable false
+basic.msg.empty_list 没有内容显示
+basic.msg.empty_list_row <tr class="empty"><td colspan="{0}">没有内容显示.</td></tr>
+sort.amount page
+
+#导出excel,csv,pdf,xml的汉化.
+export.banner <div class="exportlinks"> 导出选项: {0} </div>
+export.banner.sepchar |
+
+#paging.banner.placement both  不可以指定值出错.
+paging.banner.placement both
+
+
+#分页的汉化.
+paging.banner.item_name 条记录
+paging.banner.items_name 记录
+paging.banner.no_items_found <span class="pagebanner"> 没有 {0}. </span>
+paging.banner.one_item_found <span class="pagebanner"> 找到一个 {0} . </span>
+paging.banner.all_items_found <span class="pagebanner"> {0} {1} 已经找到, 显示所有的 {2}. </span>
+paging.banner.some_items_found <span class="pagebanner"> {0} {1} 已经找到, 显示 第{2}条记录 至 第{3}条记录. </span>
+paging.banner.group_size 8
+paging.banner.full <span class="pagelinks"> [<a href="{1}">第一页</a>/ <a href="{2}">前一页</a>] {0} [ <a href="{3}">下一页</a>/ <a href="{4}">最后一页</a>]</span>
+paging.banner.first <span class="pagelinks"> [第一页/前一页] {0} [ <a href="{3}">下一页</a>/ <a href="{4}">最后一页</a>] </span>
+paging.banner.last <span class="pagelinks">[ <a href="{1}">第一页</a>/ <a href="{2}">前一页</a>] {0} [下一页/最后一页] </span>
+paging.banner.onepage <span class="pagelinks">{0}</span>
+paging.banner.page.selected <strong>{0}</strong>
+paging.banner.page.link <a href="{1}" title="跳至第 {0} 页">{0}</a>
+paging.banner.page.separator , 
+
+
+##Exporting
+export.types csv excel xml pdf
+export.csv  true
+export.excel  true
+export.xml  true
+export.pdf  true
+
+#export.csv.include_header  true
+export.csv.include_header  true
+export.csv.filename  export_file.csv
+
+#export.excel.include_header  true
+export.excel.include_header  true
+export.excel.filename  export_file.xls
+
+#export.xml.include_header  true
+export.xml.include_header  true
+export.xml.filename  export_file.xml
+
+#export.pdf.include_header  true
+export.pdf.include_header  true
+export.pdf.filename  export_file.pdf
+
+
+
+
+export.amount list
+export.decorated true 
+
+##css
+css.tr.even even
+css.tr.odd odd
+css.th.sorted sorted
+css.th.ascending order1
+css.th.descending order2
+css.table none
+css.th.sortable none
+  

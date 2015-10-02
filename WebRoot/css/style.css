@@ -1,0 +1,69 @@
+.v15 {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 14pt
+}
+.white {
+	COLOR: #ffffff; FONT-SIZE: 9pt; LINE-HEIGHT: 14pt
+}
+.green {
+	COLOR: #24724a; FONT-SIZE: 9pt; LINE-HEIGHT: 14pt
+}
+.bt {
+	COLOR: #ff6600; FONT-SIZE: 12pt; LINE-HEIGHT: 14pt
+}
+.bt-green {
+	COLOR: #24724a; FONT-SIZE: 12pt; FONT-WEIGHT: bold; LINE-HEIGHT: 14pt
+}
+.xbt {
+	COLOR: #ffffff; FILTER: Glow(Color=#24724a,Strength=2); FONT-SIZE: 9pt; FONT-WEIGHT: bold; LETTER-SPACING: 0.05cm
+}
+P {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 14pt; TEXT-INDENT: 0.25in
+}
+TD {
+	FONT-SIZE: 9pt; LINE-HEIGHT: 14pt
+}
+A:link {
+	COLOR: #000000; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ff0000; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.white:link {
+	COLOR: #ffffff; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.white:visited {
+	COLOR: #ffffff; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.white:hover {
+	COLOR: #ffcc00; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.green1link {
+	COLOR: #65d587; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.green1visited {
+	COLOR: #65d587; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.green1hover {
+	COLOR: #ff0000; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.green:link {
+	COLOR: #1c5739; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.green:visited {
+	COLOR: #1c5739; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.green:hover {
+	COLOR: #ffcc00; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.blue:link {
+	COLOR: #0e34a3; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.blue:visited {
+	COLOR: #0e34a3; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}
+A.blue:hover {
+	COLOR: #ffcc00; FONT-SIZE: 9pt; TEXT-DECORATION: none
+}

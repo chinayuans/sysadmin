@@ -1,0 +1,507 @@
+ClassLoader in Tomcat 
+
+http://rosonsandy.blogdriver.com/rosonsandy/871539.html
+
+在一个JVM中可能存在多个ClassLoader，每个ClassLoader拥有自己的NameSpace。
+一个ClassLoader只能拥有一个class对象类型的实例，但是不同的ClassLoader可能拥有相同的class对象实例，
+这时可能产生致命的问题。如ClassLoaderA，装载了类A的类型实例A1，而ClassLoaderB，也装载了类A的对象实例A2。
+逻辑上讲A1=A2，但是由于A1和A2来自于不同的ClassLoader，它们实际上是完全不同的，如果A中定义了一个静态变量c，
+则c在不同的ClassLoader中的值是不同的。
+
+--------------------------------------------------------------------------------
+
+1 - Tomcat的类载入器的结构 
+
+
+Tomcat Server在启动的时候将构造一个ClassLoader树，以保证模块的类库是私有的
+Tomcat Server的ClassLoader结构如下： 
+
+
+        +-----------------------------+ 
+
+        |         Bootstrap           | 
+
+        |             |               | 
+
+        |          System             | 
+
+        |             |               | 
+
+        |          Common             | 
+
+        |         /      \            | 
+
+        |     Catalina  Shared        | 
+
+        |               /    \        | 
+
+        |          WebApp1  WebApp2   | 
+
+        +-----------------------------+ 
+
+
+其中：
+- Bootstrap - 载入JVM自带的类和$JAVA_HOME/jre/lib/ext/*.jar
+- System - 载入$CLASSPATH/*.class
+- Common - 载入$CATALINA_HOME/common/...，它们对TOMCAT和所有的WEB APP都可见
+- Catalina - 载入$CATALINA_HOME/server/...，它们仅对TOMCAT可见，对所有的WEB APP都不可见
+- Shared - 载入$CATALINA_HOME/shared/...，它们仅对所有WEB APP可见，对TOMCAT不可见（也不必见）
+- WebApp - 载入ContextBase?/WEB-INF/...，它们仅对该WEB APP可见 
+
+
+
+2 - ClassLoader的工作原理 
+
+
+每个运行中的线程都有一个成员contextClassLoader，用来在运行时动态地载入其它类
+系统默认的contextClassLoader是systemClassLoader，所以一般而言java程序在执行时可以使用JVM自带的类、$JAVA_HOME/jre/lib/ext/中的类和$CLASSPATH/中的类
+可以使用Thread.currentThread().setContextClassLoader(...);更改当前线程的contextClassLoader，来改变其载入类的行为 
+
+
+ClassLoader被组织成树形，一般的工作原理是：
+1) 线程需要用到某个类，于是contextClassLoader被请求来载入该类
+2) contextClassLoader请求它的父ClassLoader来完成该载入请求
+3) 如果父ClassLoader无法载入类，则contextClassLoader试图自己来载入 
+
+
+注意：WebApp?ClassLoader的工作原理和上述有少许不同：
+它先试图自己载入类（在ContextBase?/WEB-INF/...中载入类），如果无法载入，再请求父ClassLoader完成 
+
+
+由此可得：
+- 对于WEB APP线程，它的contextClassLoader是WebApp?ClassLoader
+- 对于Tomcat Server线程，它的contextClassLoader是CatalinaClassLoader 
+
+
+
+3 类的查找
+
+ClassLoader类中loadClass方法为缺省实现，用下面的顺序查找类：
+
+1、调用findLoadedClass方法来检查是否已经被加载。如果没有则继续下面的步骤。
+
+2、如果当前类装载器有一个指定的委托父装载器，则用委托父装载器的loadClass方法加载类，也就是委托给父装载器加载相应的类。
+
+3、如果这个类装载器的委托层级体系没有一个类装载器加载该类，则使用类装载器定位类的特定实现机制，调用findClass方法来查找类。
+
+
+
+4 - 部分原代码分析 
+
+
+4.1 - org/apache/catalina/startup/Bootstrap.java 
+
+Bootstrap中定义了三个classloader:commonLoader,catalinaLoader,sharedLoader.三者关系如下：
+
+
+//注意三个自己定置的ClassLoader的层次关系：  
+
+            // systemClassLoader (root)  
+
+            //   +--- commonLoader  
+
+            //          +--- catalinaLoader  
+
+            //          +--- sharedLoader 
+
+
+Tomcat Server线程的起点
+构造ClassLoader树，通过Thread.currentThread().setContextClassLoader(catalinaLoader)设置当前的classloader为catalinaLoader。
+载入若干类，然后转入org.apache.catalina.startup.Catalina类中 
+
+
+
+4.2 org.apache.catalina.loader.StandardClassLoader.java
+
+通过看loadClass这个方法来看tomcat是如何加载类的，顺序如下：
+
+(0) Check our previously loaded class cache查找已经装载的class
+        clazz = findLoadedClass(name);
+
+(1) If a system class, use system class loader通过系统classloader来装载class
+
+        ClassLoader loader = system;
+            clazz = loader.loadClass(name);
+
+(2) Delegate to our parent if requested如果有代理则使用父类classloader
+
+            ClassLoader loader = parent;
+            if (loader == null)
+                loader = system;
+            clazz = loader.loadClass(name);
+
+(3) Search local repositories 查找本地类池，比如$CATALINA_HOME/server
+
+           clazz = findClass(name);
+
+(4) Delegate to parent unconditionally 默认使用代理装载器
+
+
+
+[查看代码] 
+
+
+4.3 - org/apache/catalina/startup/ClassLoaderFactory.java 
+
+
+根据设置创建并返回StandardClassLoader的实例 
+
+
+[查看代码] 
+
+
+4.4 - org/apache/catalina/loader/StandardClassLoader.java 
+
+
+类载入器 
+
+
+4.5 - org/apache/catalina/startup/SecurityClassLoad.java 
+
+
+该类仅包含一个静态方法，用来为catalinaLoader载入一些类 
+
+
+[查看代码] 
+
+
+Appendix - 参考 
+
+
+[1] http://jakarta.apache.org/tomcat/中的Tomcat 4.1.x文档Class Loader HOW-TO 
+
+=======================================================
+org/apache/catalina/startup/Bootstrap.java :
+=======================================================
+Tomcat Server线程的起点
+构造ClassLoader树，并设置Tomcat Server线程的contextClassLoader为catalinaloader
+载入若干类，然后转入org.apache.catalina.startup.Catalina类中
+
+
+---------------------------------------
+package org.apache.catalina.startup;
+
+
+// JDK类库
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+
+// apache自己的类库
+
+import org.apache.catalina.loader.Extension;
+import org.apache.catalina.loader.StandardClassLoader;
+
+
+/**
+ * Boostrap loader for Catalina.     This application constructs a class loader
+ * for use in loading the Catalina internal classes (by accumulating all of the
+ * JAR files found in the "server" directory under "catalina.home"), and
+ * starts the regular execution of the container.     The purpose of this
+ * roundabout approach is to keep the Catalina internal classes (and any
+ * other classes they depend on, such as an XML parser) out of the system
+ * class path and therefore not visible to application level classes.
+ *
+ * @author Craig R. McClanahan
+ * @version $Revision: 1.36 $ $Date: 2002/04/01 19:51:31 $
+ */
+
+
+
+/**
+ * 该类的main方法的主要任务：
+ * --------------------------
+ *
+ * 1，创建TOMCAT自己的类载入器(ClassLoader)
+ *         +---------------------------+
+ *         |            Bootstrap            |
+ *         |                |                |
+ *         |             System              |
+ *         |                |                |
+ *         |             Common              |
+ *         |            /         \             |
+ *         |        Catalina     Shared         |
+ *         +---------------------------+
+ *       其中：
+ *       - Bootstrap - 载入JVM自带的类和$JAVA_HOME/jre/lib/ext/*.jar
+ *       - System       - 载入$CLASSPATH/*.class
+ *       - Common       - 载入$CATALINA_HOME/common/...，它们对TOMCAT和所有的WEB APP都可见
+ *       - Catalina     - 载入$CATALINA_HOME/server/...，它们仅对TOMCAT可见，对所有的WEB APP都不可见
+ *       - Shared       - 载入$CATALINA_HOME/shared/...，它们仅对所有WEB APP可见，对TOMCAT不可见（也不必见）
+ *       注意：当一个ClassLoader被请求载入一个类时，它首先请求其父ClassLoader完成载入，
+ *       仅当其父ClassLoader无法载入该类时，才试图自己载入该类
+ * 2，改变本身线程的默认ClassLoader（本线程就是Tomcat Server线程，类载入器是catalinaLoader）
+ * 3，让catalinaLoader载入一些类，类的位置在$CATALINA_HOME/server/lib/catalina.jar中
+ * 4，创建org.apache.catalina.startup.Catalina类的一个实例startupInstance，并为其调用方法：
+ *       startupInstance.setParentClassLoader(sharedLoader);
+ *       startupInstance.process(args);
+ *
+ *
+ * 有关ClassLoader的说明：
+ * -----------------------
+ *
+ * 每个被DEPLOY的WEB APP都会被创建一个ClassLoader，用来载入该WEB APP自己的类
+ * 这些类的位置是webappX/WEB-INF/classes/*.class和webappX/WEB-INF/lib/*.jar
+ *
+ * ClassLoader的工作流程是：
+ * 1) 收到一个载入类的的请求
+ * 2) 请求其父ClassLoader来完成该类的载入
+ * 3) 如果父ClassLoader无法载入，则自己试图完成该类的载入
+ *
+ * 特别注意WEB APP自己的ClassLoader的实现与众不同：
+ * 它先试图从WEB APP自己的目录里载入，如果失败则请求父ClassLoader的代理
+ * 这样可以让不同的WEB APP之间的类载入互不干扰
+ *
+ * WEB APP的ClassLoader的层次结构是：
+ *        +----------------------------+
+ *        |          Shared                  |
+ *        |         /         \ ...             |
+ *        |      Webapp1     Webapp2     ...       |
+ *        +----------------------------+
+ * 故对于一个WEB APP，其类载入的优先顺序如下：
+ * - /WEB-INF/classes/*.class 和 /WEB-INF/lib/*.jar
+ * - Bootstrap classes of JVM
+ * - System class loader classes
+ * - $CATALINA_HOME/common/...
+ * - $CATALINA_HOME/shared/...
+ *
+ *
+ * 小结：
+ * ------
+ *
+ * 综上分析
+ * - Tomcat Server线程使用的classLoader是Catalina
+ * - 每个WEB APP线程使用的classloader是Webapp?
+ *
+ */
+
+
+public final class Bootstrap {
+
+
+       /**
+        * DEBUG级别
+        */
+
+       private static int debug = 0;
+
+
+       /**
+        * 脚本执行该程序时，提供以下的系统属性：
+        * java.endorsed.dirs="$JAVA_ENDORSED_DIRS" -classpath "$CLASSPATH" \
+        * java.security.manager \
+        * java.security.policy=="$CATALINA_BASE"/conf/catalina.policy \
+        * catalina.base="$CATALINA_BASE" \
+        * catalina.home="$CATALINA_HOME" \
+        * java.io.tmpdir="$CATALINA_TMPDIR" \
+        *
+        * @param args Command line arguments to be processed
+        */
+
+       public static void main(String args[]) {
+
+
+           // 设置debug
+
+           for (int i = 0; i < args.length; i++)     {
+               if ("-debug".equals(args[i]))
+                   debug = 1;
+           }
+
+
+           // 设置好系统属性catalina.base，即保证其有值
+
+           if (System.getProperty("catalina.base") == null)
+               System.setProperty("catalina.base", getCatalinaHome());
+
+
+           // 创建三个ClassLoader
+           // 这三个对象是通过ClassLoaderFactory的静态方法创建的
+           // 其实际类型是StandardClassLoader，完成tomcat自定义的类载入
+           // 这些类对非tomcat及其上的webapp的其它java程序不可见，故用自己的Classloader载入
+
+           ClassLoader commonLoader = null;
+           ClassLoader catalinaLoader = null;
+           ClassLoader sharedLoader = null;
+           try {
+
+               File unpacked[] = new File[1];
+               File packed[] = new File[1];
+               File packed2[] = new File[2];
+               
+               ClassLoaderFactory.setDebug(debug);
+
+
+               // $CATALINA_HOME/common/classes/*.class - 未压缩的类
+               // $CATALINA_HOME/common/endorsed/*.jar - 压缩的类（endorse：支持）
+               // $CATALINA_HOME/common/lib/*.jar - 压缩的类
+               // 这些类是被tomcat server以及所有的webapp所共享的类，由commonLoader负责载入
+
+               unpacked[0] = new File(getCatalinaHome(),
+                                      "common" + File.separator + "classes");
+               packed2[0] = new File(getCatalinaHome(),
+                                     "common" + File.separator + "endorsed");
+               packed2[1] = new File(getCatalinaHome(),
+                                     "common" + File.separator + "lib");
+               commonLoader =
+                   ClassLoaderFactory.createClassLoader(unpacked, packed2, null);
+
+
+               // $CATALINA_HOME/server/classes/*.class
+               // $CATALINA_HOME/server/lib/*.jar
+               // 这些类是仅被tomcat server使用而对webapp不可见的类，由catalinaLoader负责载入
+
+               unpacked[0] = new File(getCatalinaHome(),
+                                      "server" + File.separator + "classes");
+               packed[0] = new File(getCatalinaHome(),
+                                    "server" + File.separator + "lib");
+               catalinaLoader =
+                   ClassLoaderFactory.createClassLoader(unpacked, packed,
+                                                        commonLoader);
+
+
+               // $CATALINA_BASE/shared/classes/*.class
+               // $CATALINA_BASE/shared/lib/*.jar
+               // 这些类是仅被tomcat的webapp使用的类，由sharedLoader负责载入
+
+               unpacked[0] = new File(getCatalinaBase(),
+                                      "shared" + File.separator + "classes");
+               packed[0] = new File(getCatalinaBase(),
+                                    "shared" + File.separator + "lib");
+               sharedLoader =
+                   ClassLoaderFactory.createClassLoader(unpacked, packed,
+                                                        commonLoader);
+                                                        
+
+               // 注意三个自己定置的ClassLoader的层次关系：
+               // systemClassLoader (root)
+               //      +--- commonLoader
+               //             +--- catalinaLoader
+               //             +--- sharedLoader
+
+           } catch (Throwable t) {
+               log("Class loader creation threw exception", t);
+               System.exit(1);
+
+           }
+
+
+           // 为当前的线程更改其contextClassLoader
+           // 一般的线程默认的contextClassLoader是系统的ClassLoader（所有其它自定义ClassLoader的父亲）
+           // 当该线程需要载入类时，将使用自己的contextClassLoader来寻找并载入类
+           // 更改contextClassLoader可以更改该线程的寻找和载入类的行为，但不影响到其它线程
+           // 注意！Tomcat Server线程使用的是catalinaLoader
+
+           Thread.currentThread().setContextClassLoader(catalinaLoader);
+
+
+           // Load our startup class and call its process() method
+
+           try {
+
+
+               // 预载入catalinalLoader的一些类
+
+               SecurityClassLoad.securityClassLoad(catalinaLoader);
+
+
+               // 获得tomcat的启动类：org.apache.catalina.startup.Catalina，并创建该类的一个实例
+
+               if (debug >= 1)
+                   log("Loading startup class");
+               Class startupClass =
+                   catalinaLoader.loadClass
+                   ("org.apache.catalina.startup.Catalina");
+               Object startupInstance = startupClass.newInstance();
+
+
+               // 设置startupInstance的父ClassLoader，相当于执行：
+               // Catalina startupInstance = new Catailina();
+               // startupInstance.setParentClassLoader(sharedLoader);
+               // 详情参考类org.apache.catalina.startup.Catalina
+
+               if (debug >= 1)
+                   log("Setting startup class properties");
+               String methodName = "setParentClassLoader";
+               Class paramTypes[] = new Class[1];
+               paramTypes[0] = Class.forName("java.lang.ClassLoader");
+               Object paramValues[] = new Object[1];
+               paramValues[0] = sharedLoader;
+               Method method =
+                   startupInstance.getClass().getMethod(methodName, paramTypes);
+               method.invoke(startupInstance, paramValues);
+
+
+               // 使用main方法获得的参数args来执行process方法，相当于：
+               // startupInstance.process(args);
+               // 详情参考类org.apache.catalina.startup.Catalina
+
+               if (debug >= 1)
+                   log("Calling startup class process() method");
+               methodName = "process";
+               paramTypes = new Class[1];
+               paramTypes[0] = args.getClass();
+               paramValues = new Object[1];
+               paramValues[0] = args;
+               method =
+                   startupInstance.getClass().getMethod(methodName, paramTypes);
+               method.invoke(startupInstance, paramValues);
+
+           } catch (Exception e) {
+               System.out.println("Exception during startup processing");
+               e.printStackTrace(System.out);
+               System.exit(2);
+           }
+
+       }
+
+
+       /**
+        * 返回$CATALINA_HOME变量。如果该变量没有定义，则将之赋值为用户的当前工作目录。
+        */
+
+       private static String getCatalinaHome() {
+           return System.getProperty("catalina.home",
+                                     System.getProperty("user.dir"));
+       }
+
+
+       /**
+        * 返回$CATALINA_BASE变量。如果该变量没有定义，则将之赋值为$CATALINA_HOME。
+        */
+
+       private static String getCatalinaBase() {
+           return System.getProperty("catalina.base", getCatalinaHome());
+       }
+
+
+       /**
+        * 输出LOG信息。
+        */
+
+       private static void log(String message) {
+
+           System.out.print("Bootstrap: ");
+           System.out.println(message);
+
+       }
+
+
+       /**
+        * 输出由异常引起的LOG信息。
+        */
+
+       private static void log(String message, Throwable exception) {
+
+           log(message);
+           exception.printStackTrace(System.out);
+
+       }
+
+}
+

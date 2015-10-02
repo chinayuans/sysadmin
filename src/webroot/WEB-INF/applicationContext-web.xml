@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>  
+   <!-- 这个配置相当于serviceLocator的功能. -->
+   <!-- 
+   <bean name="/baseAction" 
+         class="org.appfuse.web.base.BaseAction"
+         singleton="false">
+         <property name="baseService">
+            <ref bean="baseService"/>
+         </property>
+   </bean>
+   
+    -->
+   
+   <bean name="/user" 
+         class="org.appfuse.web.action.sysadmin.UserAction"
+         singleton="false">
+         <property name="userManagerService">
+            <ref bean="userManagerService"/>
+         </property>
+         <property name="service">
+            <ref bean="baseService"/>
+         </property>
+   </bean>
+   
+   <!-- 菜单管理功能. -->
+   <bean name="/menuItem" 
+         class="org.appfuse.web.action.sysadmin.MenuItemAction"
+         singleton="false">
+         <property name="menuItemManagerService">
+            <ref bean="menuItemManagerService"/>
+         </property>
+   </bean>
+   
+    <!-- 公司管理功能. -->
+   <bean name="/company" 
+         class="org.appfuse.web.action.sysadmin.CompanyAction"
+         singleton="false">
+         <property name="companyService">
+            <ref bean="baseService"/>
+         </property>
+   </bean>
+   
+    <!-- 部门管理功能. -->
+   <bean name="/department" 
+         class="org.appfuse.web.action.sysadmin.DepartmentAction"
+         singleton="false">
+         <property name="departmentService">
+            <ref bean="baseService"/>
+         </property>
+   </bean>
+   
+   <!-- 用户状态管理功能. -->
+   <bean name="/userstatus" 
+         class="org.appfuse.web.action.sysadmin.UserStatusAction"
+         singleton="false">
+         <property name="userStatusService">
+            <ref bean="baseService"/>
+         </property>
+         
+         <property name="handleServiceException">
+            <ref bean="handleServiceException"/>
+         </property>
+         
+   </bean>
+   
+   <!-- 角色管理功能. -->
+   <bean name="/role" 
+         class="org.appfuse.web.action.sysadmin.RoleAction"
+         singleton="false">
+         <property name="roleService">
+            <ref bean="baseService"/>
+         </property>
+         
+   </bean>
+</beans>

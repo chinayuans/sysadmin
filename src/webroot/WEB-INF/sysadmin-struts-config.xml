@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+    <!-- 
+        注意的是命名规则: 
+        /user.do   对应的列表显示所有记录的页面必须命名为 /user_ListAll.jsp
+        上面的user可以更换成任意字符串.
+    -->
+    <!-- ========== Form Bean Definitions =================================== -->
+    <form-beans>
+        <!-- 上传文件功能 -->
+        <form-bean name="uploadForm"
+            type="org.appfuse.web.form.UploadForm" />
+
+        <!-- 用户管理功能 -->
+        <form-bean name="userForm"
+            type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="user"
+                type="org.appfuse.model.sysadmin.User">
+            </form-property>
+        </form-bean>
+
+        <!-- 菜单管理功能 -->
+        <form-bean name="menuItemForm"
+            type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="menuItem"
+                type="org.appfuse.model.sysadmin.MenuItem">
+            </form-property>
+        </form-bean>
+
+        <!-- 公司名称管理-->
+        <form-bean name="companyForm"
+            type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="company"
+                type="org.appfuse.model.sysadmin.Company">
+            </form-property>
+        </form-bean>
+
+        <!-- 部门名称管理-->
+        <form-bean name="departmentForm"
+            type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="department"
+                type="org.appfuse.model.sysadmin.Department">
+            </form-property>
+        </form-bean>
+        
+        <!-- 用户状态管理-->
+        <form-bean name="userstatusForm"
+            type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="userstatus"
+                type="org.appfuse.model.sysadmin.UserStatus">
+            </form-property>
+        </form-bean>
+        
+        <!-- 角色管理-->
+        <form-bean name="roleForm"
+            type="org.apache.struts.validator.DynaValidatorForm">
+            <form-property name="role"
+                type="org.appfuse.model.sysadmin.Role">
+            </form-property>
+        </form-bean>
+
+    </form-beans>
+
+
+    <!-- ========== Action Mapping Definitions =================================== -->
+    <!--
+        validate="true"仅仅用来控制服务端的验证，无法控制客户端javascript是否验证，
+        这里设置为validate="false",可以在代码中通过form.validate()同样可以打开服务
+        端的控制。
+    -->
+    <action-mappings>
+
+        <!-- 上传文件功能 -->
+        <action path="/uploadFile"
+            type="org.appfuse.web.action.upload.UploadAction"
+            name="uploadForm" scope="request" input="failure"
+            unknown="false" validate="true">
+            <forward name="failure"
+                path="/application/upload/uploadForm.jsp"
+                redirect="false" />
+            <forward name="success"
+                path="/application/upload/uploadDisplay.jsp"
+                redirect="false" />
+        </action>
+
+
+        <action path="/user"
+            type="org.appfuse.web.action.sysadmin.UserAction"
+            name="userForm" scope="request" parameter="method"
+            validate="false"
+            input="/application/sysadmin/user/user_InputOrEdit.jsp">
+            <forward name="detailOne"
+                path="/application/sysadmin/user/user_DetailOne.jsp" /><!-- 用于显示一行记录的详细信息 -->
+            <forward name="listAll"
+                path="/application/sysadmin/user/user_ListAll.jsp" /><!-- 用于所有记录的详细信息 -->
+            <forward name="preSaveOrUpdate"
+                path="/application/sysadmin/user/user_InputOrEdit.jsp" /><!-- 用于录入或者修改一条记录信息 -->
+            <forward name="preQueryStandard"
+                path="/application/sysadmin/user/user_InputOrEdit.jsp" /><!-- user_QueryStandard.jsp进行标准查询,输入查询条件的页面 -->
+            <forward name="preRemoveSome"
+                path="/application/sysadmin/user/user_InputOrEdit.jsp" />
+            <!--录入删除记录的 where条件  delete from xxx where -->
+            <forward name="success"
+                path="/application/sysadmin/success.jsp" />
+            <!--操作成功通知页面-->
+
+            <forward name="login_failure"
+                path="/application/login/userLogin.jsp" />
+            <!--登陆验证失败通知页面-->
+            <forward name="login_success"
+                path="/WEB-INF/pages/MainIndex-SplitBar-Style.jsp" />
+            <!--登陆验证成功通知页面-->
+            <!-- 备用得登陆成功页面 -->
+            <!-- forward name="login_success" 
+                path="/WEB-INF/pages/MainIndex-NavigatorBar-Style.jsp"/-->
+            <!--登陆验证成功通知页面-->
+        </action>
+
+        <!-- 菜单管理功能 -->
+        <action path="/menuItem"
+            type="org.appfuse.web.action.sysadmin.MenuItemAction"
+            name="menuItemForm" scope="request" parameter="method"
+            validate="false"
+            input="/application/sysadmin/menuItem/menuItem_InputOrEdit.jsp">
+            <forward name="detailOne"
+                path="/application/sysadmin/menuItem/menuItem_DetailOne.jsp" /><!-- 用于findById方法中 -->
+            <forward name="listAll"
+                path="/application/sysadmin/menuItem/menuItem_ListAll.jsp" />
+            <forward name="preSaveOrUpdate"
+                path="/application/sysadmin/menuItem/menuItem_InputOrEdit.jsp" />
+            <forward name="preQueryStandard"
+                path="/application/sysadmin/menuItem/menuItem_InputOrEdit.jsp" /><!-- menuItem_QueryStandard.jsp -->
+            <forward name="preRemoveSome"
+                path="/application/sysadmin/menuItem/menuItem_InputOrEdit.jsp" />
+            <forward name="success"
+                path="/application/sysadmin/success.jsp" />
+            <!--操作成功通知页面-->
+
+            <!--登陆成功的页面采用的风格菜单  -->
+            <forward name="mainMenu"
+                path="/application/menu-styles/mainMenu.jsp" />
+
+            <!-- 不同菜单方式的显示风格 -->
+            <forward name="XTree"
+                path="/application/menu-styles/XTree.jsp" />
+            <forward name="Simple"
+                path="/application/menu-styles/Simple.jsp" />
+            <forward name="DropDown"
+                path="/application/menu-styles/DropDown.jsp" />
+            <forward name="CoolMenu"
+                path="/application/menu-styles/CoolMenu.jsp" />
+            <forward name="CoolMenu4"
+                path="/application/menu-styles/CoolMenu4.jsp" />
+            <forward name="ListMenu"
+                path="/application/menu-styles/ListMenu.jsp" />
+            <forward name="TabbedMenu"
+                path="/application/menu-styles/TabbedMenu.jsp" />
+            <forward name="PerfectMenu"
+                path="/application/perfect_menu/perfect_menu.jsp" />
+        </action>
+
+        <!-- 公司名称管理-->
+        <action path="/company"
+            type="org.appfuse.web.action.sysadmin.CompanyAction"
+            name="companyForm" scope="request" parameter="method"
+            validate="false"
+            input="/application/sysadmin/company/company_InputOrEdit.jsp">
+            <forward name="detailOne"
+                path="/application/sysadmin/company/company_DetailOne.jsp" /><!-- 用于findById方法中 -->
+            <forward name="listAll"
+                path="/application/sysadmin/company/company_ListAll.jsp" />
+            <forward name="preSaveOrUpdate"
+                path="/application/sysadmin/company/company_InputOrEdit.jsp" />
+            <forward name="preQueryStandard"
+                path="/application/sysadmin/company/company_InputOrEdit.jsp" />
+            <forward name="preRemoveSome"
+                path="/application/sysadmin/company/company_InputOrEdit.jsp" />
+            <forward name="success"
+                path="/application/sysadmin/success.jsp" />
+            <!--操作成功通知页面-->
+        </action>
+
+        <!-- 部门名称管理-->
+        <action path="/department"
+            type="org.appfuse.web.action.sysadmin.DepartmentAction"
+            name="departmentForm" scope="request" parameter="method"
+            validate="false"
+            input="/application/sysadmin/department/department_InputOrEdit.jsp">
+            <forward name="detailOne"
+                path="/application/sysadmin/department/department_DetailOne.jsp" /><!-- 用于findById方法中 -->
+            <forward name="listAll"
+                path="/application/sysadmin/department/department_ListAll.jsp" />
+            <forward name="preSaveOrUpdate"
+                path="/application/sysadmin/department/department_InputOrEdit.jsp" />
+            <forward name="preQueryStandard"
+                path="/application/sysadmin/department/department_InputOrEdit.jsp" />
+            <forward name="preRemoveSome"
+                path="/application/sysadmin/department/department_InputOrEdit.jsp" />
+            <forward name="success"
+                path="/application/sysadmin/success.jsp" />
+            <!--操作成功通知页面-->
+        </action>
+
+        <!-- 用户状态管理-->
+        <action path="/userstatus"
+            type="org.appfuse.web.action.sysadmin.UserStatusAction"
+            name="userstatusForm" scope="request" parameter="method"
+            validate="false"
+            input="/application/sysadmin/userstatus/userstatus_InputOrEdit.jsp">
+            
+            <exception path="/common/struts-error.jsp"
+                       key="error.business.error" 
+                       type="org.appfuse.web.exception.BaseException"
+                       handler="org.appfuse.web.exception.BaseExceptionHandler"
+                       >
+            </exception>
+            
+            <forward name="detailOne"
+                path="/application/sysadmin/userstatus/userstatus_DetailOne.jsp" /><!-- 用于findById方法中 -->
+            <forward name="listAll"
+                path="/application/sysadmin/userstatus/userstatus_ListAll.jsp" />
+            <forward name="preSaveOrUpdate"
+                path="/application/sysadmin/userstatus/userstatus_InputOrEdit.jsp" />
+            <forward name="preQueryStandard"
+                path="/application/sysadmin/userstatus/userstatus_InputOrEdit.jsp" />
+            <forward name="preRemoveSome"
+                path="/application/sysadmin/userstatus/userstatus_InputOrEdit.jsp" />
+            <forward name="success"
+                path="/application/sysadmin/success.jsp" />
+            <!--操作成功通知页面-->
+        </action>
+        
+        <!-- 角色管理-->
+        <action path="/role"
+            type="org.appfuse.web.action.sysadmin.RoleAction"
+            name="roleForm" scope="request" parameter="method"
+            validate="false"
+            input="/application/sysadmin/role/role_InputOrEdit.jsp">
+            
+            <exception path="/common/struts-error.jsp"
+                       key="error.business.error" 
+                       type="org.appfuse.web.exception.BaseException"
+                       handler="org.appfuse.web.exception.BaseExceptionHandler"
+                       >
+            </exception>
+            
+            <forward name="detailOne"
+                path="/application/sysadmin/role/role_DetailOne.jsp" /><!-- 用于findById方法中 -->
+            <forward name="listAll"
+                path="/application/sysadmin/role/role_ListAll.jsp" />
+            <forward name="preSaveOrUpdate"
+                path="/application/sysadmin/role/role_InputOrEdit.jsp" />
+            <forward name="preQueryStandard"
+                path="/application/sysadmin/role/role_InputOrEdit.jsp" />
+            <forward name="preRemoveSome"
+                path="/application/sysadmin/role/role_InputOrEdit.jsp" />
+            <forward name="success"
+                path="/application/sysadmin/success.jsp" />
+            <!--操作成功通知页面-->
+        </action>
+
+
+    </action-mappings>
+
+
+</struts-config>

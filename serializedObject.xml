@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serialized>
+	<object class="org.appfuse.common.util.serialize.HelloWorld2" id="0">
+		<field name="m_sName" declaringclass="org.appfuse.common.util.serialize.HelloWorld2">
+			<reference>1</reference>
+		</field>
+	</object>
+	<object class="java.lang.String" id="1">
+		<field name="value" declaringclass="java.lang.String">
+			<reference>2</reference>
+		</field>
+		<field name="offset" declaringclass="java.lang.String">
+			<value>0</value>
+		</field>
+		<field name="count" declaringclass="java.lang.String">
+			<value>0</value>
+		</field>
+		<field name="hash" declaringclass="java.lang.String">
+			<value>0</value>
+		</field>
+	</object>
+	<object class="[C" id="2" length="0"></object>
+</serialized>
+

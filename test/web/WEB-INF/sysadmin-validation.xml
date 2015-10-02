@@ -1,0 +1,62 @@
+<form-validation>
+
+<formset>
+  <form name="userForm">
+      <field property="user.user_id" depends="required">
+        <arg0 key="user.user_id"/>
+      </field>
+      <field property="user.user_name" depends="required">
+        <arg0 key="user.user_name"/>
+      </field>
+      <field property="user.user_password" depends="required">
+        <arg0 key="user.user_password"/>
+      </field>
+      <field property="user.firstName" depends="required">
+        <arg0 key="user.firstName"/>
+      </field>
+      <field property="user.lastName" depends="required">
+        <arg0 key="user.lastName"/>
+      </field>       
+  </form>
+  
+   <!-- 菜单管理功能 -->
+  <form name="menuItemForm">
+      <field property="menuItem.name" depends="required">
+        <arg0 key="menu.name"/>
+      </field>
+      
+      <field property="menuItem.title" depends="required">
+        <arg0 key="menu.title"/>
+      </field>      
+  </form>
+  
+  <!-- 部门管理功能 -->
+  <form name="departmentForm">
+      <field property="department.name" depends="required">
+        <arg0 key="department.name"/>
+      </field>
+  </form>
+  
+  <!-- 公司管理功能 -->
+  <form name="companyForm">
+      <field property="company.name" depends="required">
+        <arg0 key="company.name"/>
+      </field>
+  </form>
+  
+  <!-- 用户状态功能 -->
+  <form name="userstatusForm">
+      <field property="userstatus.description" depends="required">
+        <arg0 key="userstatus.description"/>
+      </field>
+  </form>
+  
+  <!-- 角色管理功能 -->
+  <form name="roleForm">
+      <field property="role.description" depends="required">
+        <arg0 key="role.description"/>
+      </field>
+  </form>
+</formset>
+
+</form-validation>

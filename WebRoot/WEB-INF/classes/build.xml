@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="sysadmin" default="about" basedir=".">
+
+	<!-- import properties (app settings, classpath, jar file locations) -->
+	<import file="properties.xml" />
+
+	<!-- =================================== 
+	      目标任务的开始  清除所有没用的目录和文件
+	     ===================================
+	 -->
+	<target name="clean" description="removes all related directories">
+
+		<!-- 缺省情况下 failonerror="true" ,如果任务执行失败，
+			  立即停止build, 当failonerror="false",会报告错误，但是
+			  继续执行下面的任务，fail 这个任务表明报告错误信息，立即停止build -->
+		<!--delete build directory -->
+		<delete dir="${webRoot.home}" failonerror="false" />
+
+		<!--delete distribute directory -->
+		<delete dir="${dist.dir}" />
+	</target>
+
+
+	<!-- ================================= 
+	      建立后面task所需要的目录
+	     =================================
+	 -->
+	<target name="init" depends="clean" description="Initializes properties that are used by other targets.">
+		<!-- Taskdefs -->
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="${ant-contrib.jar}" />
+		<tstamp />
+
+		<!--create build directory -->
+		<mkdir dir="${webRoot.home}" />
+
+		<!--create distribute directory -->
+		<mkdir dir="${dist.dir}" />
+
+	</target>
+
+
+	<!-- ================================= 
+	      准备好各种lib,做好准备 
+	     =================================
+	 -->
+	<target name="copy-lib" depends="init" description="Copy library files from source directory">
+		<copy todir="${webRoot.lib.home}" includeEmptyDirs="no">
+			<fileset dir="${junit.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${ehcache.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${cglib-nodep.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${db-ojb.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${dom4j.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${velocity.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${jstl.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${proxool.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${log4j.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${commons.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${strutstestcase.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${displaytag.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${taglibs-log.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${strutsmenu.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${dbunit.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${sitemesh.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${xdoclet.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+
+			<!--jars: struts, spring,hibernate -->
+			<fileset dir="${hibernate.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${struts.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${spring.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+
+			<!--all jars of dbs -->
+			<fileset dir="${oracle.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${sybase.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${mssqlserver.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${mysql.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${db2.dir}">
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+
+		</copy>
+
+	</target>
+
+	<!-- ================================= 
+	      建立后面编译java文件的classpath环境
+	     =================================
+	 -->
+	<target name="prepare" depends="copy-lib" description="prepare to set classpath">
+		<echo message="Creating required directories..." />
+
+		<path id="project.classpath">
+			<path refid="servlet.classpath" />
+			<path refid="jsp.classpath" />
+			<pathelement location="${webRoot.classes.home}" />
+			<fileset dir="${webRoot.lib.home}">
+				<include name="**/*.jar" />
+				<include name="**/*.zip" />
+			</fileset>
+		</path>
+	</target>
+
+
+	<!-- 
+	======================================================= 
+	 target: create.hbm.files       生成hibernate的映射文件       
+	======================================================= 
+	-->
+	<target name="create.hbm.files" depends="prepare" description="Generates Hibernate class descriptor files.">
+		<echo message="Building Hibernate mappings..." />
+
+		<taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="xdoclet.classpath" />
+		<!-- Execute the hibernatedoclet task -->
+		<hibernatedoclet destdir="${src.dao}" excludedtags="@version,@author,@todo" force="true" verbose="true">
+			<!-- 此地的force 意味着即使destdir中已经存在这样的文件，我们就要覆盖他。
+	             verbose 用来显示被copy过去的所有文件名字。
+	          -->
+			<fileset dir="${src.dao}/">
+				<include name="org/appfuse/model/**/*.java" />
+			</fileset>
+			<hibernate version="2.0" />
+		</hibernatedoclet>
+
+		<path id="hibernate.mapping.files">
+			<fileset dir="${src.dao}">
+				<include name="**/*.hbm.xml" />
+			</fileset>
+		</path>
+	</target>
+
+	<!-- 
+	======================================================= 
+	 macrodef: compile       编译模板       
+	======================================================= 
+	-->
+	<macrodef name="compile">
+		<attribute name="module" />
+		<sequential>
+			<echo>Compiling @{module}...</echo>
+			<mkdir dir="${webRoot.classes.home}" />
+			<javac srcdir="${src}/@{module}" destdir="${webRoot.classes.home}" classpathref="project.classpath" />
+			<javac srcdir="${test}/@{module}" destdir="${webRoot.classes.home}" classpathref="project.classpath" />
+		</sequential>
+	</macrodef>
+
+
+	<!-- ================================= 
+          target: compile       开始编译       
+         ================================= -->
+	<target name="compile" depends="create.hbm.files" description="compile java source">
+		<!--处理jsp,xml文件-->
+		<copy todir="${webRoot.home}" overwrite="true">
+			<fileset dir="${src.webroot}" />
+		</copy>
+
+		<!--编译java文件-->
+		<compile module="dao" />
+		<compile module="service" />
+		<compile module="web" />
+		<compile module="common" />
+
+		<!--处理*.hbm.xml文件-->
+		<copy todir="${webRoot.classes.home}" overwrite="true">
+			<fileset dir="${src.dao}">
+				<include name="**/*.hbm.xml" />
+			</fileset>
+		</copy>
+
+		<!--处理properties文件-->
+		<!-- 资源文件编码转换-->
+		<native2ascii src="${src.resources}" dest="${webRoot.classes.home}" includes="**/*.properties" encoding="utf-8" />
+	</target>
+
+
+
+	<!-- ======================================================= 
+		 target: db-schema-drop  先删除原来的表，然后根据映射文件生成ddl文件   
+		 ======================================================= -->
+
+	<!-- This will use hibernate.properties in the class folder 
+				      先删除原来的表，然后根据映射文件生成ddl文件,根据${webRoot.webinf.home}\classes\hibernate.properties
+				     下的设置来建立新的数据库。
+				     注意：hibernate.properties中的hibernate.hbm2ddl.auto 
+				     选项决定了ddl执行的方式：
+				     create-drop   先删除表，然后建立表
+				     create        直接建立表。
+				     update        更新表。
+				-->
+	<target name="create-db-schema" depends="compile" description="create db schema">
+		<echo message="This will drop all tables and recreate them based on the mappings generated " />
+		<echo message="by the generate-hibernate target.  Please reference this file: " />
+		<echo message="${src.resources}\hibernate.properties " />
+		<echo message="and modify it for the correct environment before continuing." />
+		<echo message="" />
+
+		<pathconvert property="hibernate.mappings" refid="hibernate.mapping.files" pathsep=" " />
+
+		<!--有时您可能想要单独地调用编译器 ?? 例如当你希望指定编译器的某些内存选项，
+					     或者需要使用一种不同级别的编译器的时候。为实现这个目的，只需将 javac 的 fork 属性设置为 true 
+					    使用fork的原因是，避免ant的jvm执行java的命令时会导致静态变量冲突，所以另外启动一个jvm,避免这种冲突。 
+					     -->
+		<java classname="net.sf.hibernate.tool.hbm2ddl.SchemaExport" fork="true">
+			<!-- mapping file -->
+			<arg line="${hibernate.mappings} 
+				        	       --properties=${src.resources}/hibernate.properties
+				        	       --format
+				        	       --quiet=no
+				        	       --text=no
+				        	       --drop=no
+				        	       --delimiter=;
+				        	       --output=${data.resources}/clientportal_schema.ddl" />
+			<classpath refid="project.classpath" />
+		</java>
+	</target>
+
+
+	<!-- 
+			======================================================= 
+			 target:   打包成war文件。 
+			======================================================= 
+			-->
+	<target name="war" depends="compile" description="package files into a war file">
+		<war destfile="${dist.war}" webxml="${webRoot.webinf.home}/web.xml" compress="true">
+			<fileset dir="${webRoot.home}" excludes="**/web.xml" />
+			<classes dir="${webRoot.classes.home}" />
+			<lib file="${webRoot.lib.home}/*.jar" />
+			<webinf dir="${webRoot.webinf.home}" excludes="**/web.xml" />
+		</war>
+	</target>
+
+	<!-- 
+				======================================================= 
+				 target:   将war文件部署到tomcat上面去。 
+				======================================================= 
+				-->
+	<target name="deploy" depends="war" description="deploy a war file to a app server">
+		<copy overwrite="true" file="${dist.war}" todir="${tomcat.home}/webapps" />
+	</target>
+
+
+	<!-- =================================================================== -->
+	<!--            将数据库中的数据导出到xml文件中                                    -->
+	<!-- =================================================================== -->
+
+	<target name="db-export" description="export data from database to xml files">
+		<property file="${src.resources}/hibernate.properties" />
+		<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="dbunit.classpath" />
+		<dbunit driver="${hibernate.connection.driver_class}" url="${hibernate.connection.url}" userid="${hibernate.connection.username}" password="${hibernate.connection.password}">
+			<classpath>
+				<path refid="mysql.classpath" />
+				<path refid="db2.classpath" />
+				<path refid="mssqlserver.classpath" />
+				<path refid="oracle.classpath" />
+				<path refid="sybase.classpath" />
+			</classpath>
+			<export dest="${data.resources}/sql/sample-data.xml" format="xml" />
+		</dbunit>
+	</target>
+
+	<!-- =================================================================== -->
+	<!--            将xml文件中数据导入到数据库中                                      -->
+	<!-- =================================================================== -->
+
+	<target name="db-import" description="import data from xml files to database">
+		<!-- 将初始化数据导入到数据库中去。-->
+		<property file="${src.resources}/hibernate.properties" />
+		<echo message="class:${hibernate.connection.driver_class} " />
+		<echo message="url:${hibernate.connection.url} " />
+		<echo message="userid:${hibernate.connection.username} " />
+		<taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" classpathref="dbunit.classpath" />
+		<dbunit driver="${hibernate.connection.driver_class}" url="${hibernate.connection.url}" userid="${hibernate.connection.username}" password="${hibernate.connection.password}" supportBatchStatement="false">
+			<classpath>
+				<path refid="mysql.classpath" />
+				<path refid="db2.classpath" />
+				<path refid="mssqlserver.classpath" />
+				<path refid="oracle.classpath" />
+				<path refid="sybase.classpath" />
+			</classpath>
+			<operation type="CLEAN_INSERT" src="${data.resources}/sql/sample-data.xml" format="xml" />
+		</dbunit>
+	</target>
+
+
+	<!-- 	======================================================= 
+				target:   安装这个应用，首先将war包放到tomcat上，然后在数据库上
+				建立表，最后填充数据。 
+			======================================================= 
+			-->
+	<target name="setup" depends="deploy,create-db-schema,db-import" description="install the application">
+	</target>
+
+	<!-- 
+			======================================================= 
+			 target: about  build.xml的说明书 
+			======================================================= 
+			-->
+	<target name="about" description="一个完整的struts+spring+hibernate例子的介绍">
+		<echo message="various task for local stuff" />
+		<echo message="targets include: hibernate-local, db-schema-drop" />
+		<echo message="hibernate-local - builds Hibernate mappings from XDoclet in source" />
+		<echo message="db-schema-drop - same as db-schema except it will actually load the DDL into the database" />
+	</target>
+
+	<!-- 
+		======================================================= 
+		 target: debug 
+		======================================================= 
+		-->
+	<target name="debug" description="only used by debug.">
+		<echo message="ant.file = ${ant.file}" />
+		<echo message="ant.home = ${ant.home}" />
+		<echo message="ant.java.version = ${ant.java.version}" />
+		<echo message="ant.version = ${ant.version}" />
+		<echo message="basedir = ${basedir}" />
+
+		<!-- 注意一个事情，如果一个属性变量已经赋值了，再对他赋值不管用的-->
+		<property name="variable" value="binary" />
+		<property name="variable" value="blob" />
+		<echo message="variable = ${variable}" />
+	</target>
+</project>

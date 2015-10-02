@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE html
+	 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+<script src="bbs.js"></script>
+<title></title>
+<script type="text/javascript">
+var cssFile = getBbsStyleFile();
+document.write('<link rel="stylesheet" type="text/css" href="' + cssFile + '"/>');
+</script>
+</head>
+<script type="text/javascript">
+<!--
+function checkall(form)  {
+  for (var i=0;i<form.elements.length;i++)    {
+    var e = form.elements[i];
+    if (e.name != 'chkall')       e.checked = form.chkall.checked; 
+   }
+  }
+function bbsconfirm(url,infor){
+	if(confirm(infor)){
+		window.location.href=url;
+		return true;
+		}
+	return false;
+}
+-->
+</script>
+<body topmargin="0">
+<p align="left" class="b2">
+<a href="bbssec.php" class="b2">水木社区</a>
+-
+<a href="bbsmail.php">
+chinayuan的邮箱
+</a></p>
+<center>
+<table border="0" width="750" cellspacing="0" cellpadding="0">
+	<tr>
+	<td align="center" valign="middle" background="images/m1.gif" width="80" height="26">
+	<a href="bbspstmail.php" class="mb1">写邮件</a>
+	</td>
+<td align="center" valign="middle" background="images/m1.gif" width="80" height="26">
+<a href="bbsmailbox.php?path=.DIR&title=%CA%D5%BC%FE%CF%E4" class="mb1">收件箱</a>
+</td>
+<td align="center" valign="middle" background="images/m2.gif" width="80" height="26" class="mb2">
+发件箱</td>
+<td align="center" valign="middle" background="images/m1.gif" width="80" height="26">
+<a href="bbsmailbox.php?path=.DELETED&title=%C0%AC%BB%F8%CF%E4" class="mb1">垃圾箱</a>
+</td>
+		<td width="430"><img src="images/empty.gif"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="left" background="images/m10.gif"><img src="images/m11.gif" align="top"></td>
+		<td background="images/m6.gif"><img src="images/empty.gif"></td>
+		<td colspan="2" align="right" background="images/m10.gif"><img src="images/m12.gif" align="top"></td>
+	</tr>
+	<tr>
+		<td height=200 colspan="5">
+		<table width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="7" background="images/m3.gif"><img src="images/empty.gif"></td>
+				<td background="images/m6.gif" height="400" align="center" valign="top">
+<p align="center" class="b9">
+您的 <font class="b3">发件箱</font> 里共有 <font class="b3">0</font> 封邮件
+[<a href="bbsmail.php" class="b9">返回邮箱列表</a>]
+</p>
+<form action="bbsmailact.php?act=move&dir=.SENT&title=%B7%A2%BC%FE%CF%E4" method="POST">
+<table width="95%" cellspacing="0" cellpadding="5" class="mt1">
+	<tr>
+		<td class="mt2" width="30">已读</td>
+		<td class="mt2" width="30">选中</td>
+		<td class="mt2" width="30">序号</td>
+		<td class="mt2" width="30">状态</td>
+		<td class="mt2" width="100">收信者</td>
+		<td class="mt2">标题</td>
+		<td class="mt2" width="100">时间</td>
+		<td class="mt2" width="50">大小</td>
+		<td class="mt2" width="40">删除</td>
+	</tr>
+<tr><td colspan="8" align="center"><font color="#999999">文件夹中目前没有邮件</font></td></tr>
+</table>
+<table cellpadding="3" cellspacing="0" width="95%" border="0" class="b9">
+<tr><td class="b9">
+<input type="button" value="发送邮件" class="bt1" onclick="window.location.href='bbspstmail.php'">
+<input onclick="checkall(this.form)" type="checkbox" value="on" name="chkall" align="absmiddle">
+选中本页所有邮件
+<input type="hidden" name="act2" value="delarea">
+<input type="submit" value="删除所选邮件" class="bt1" onclick="if(confirm('删除选中的邮件吗?')){submit();return true;}return false;">
+</td>
+<td class="b9" align="right">
+[<a href="bbsmail.php" class="b9">返回邮箱列表</a>]
+&nbsp;&nbsp;</td></tr></table></form>
+<table cellpadding="3" cellspacing="0" width="95%" border="0" class="b9">
+<form action="bbsdelmail.php?dir=.SENT&title=%B7%A2%BC%FE%CF%E4" method="POST">
+<input type="hidden" name="dir" value=".SENT">
+<input type="hidden" name="title" value="%B7%A2%BC%FE%CF%E4">
+<tr><td class="b9">
+区段删除：
+起始序号
+<input type="text" size="3" class="b9" name="dstart">
+结束序号
+<input type="text" size="3" class="b9" name="dend">
+删除类型：
+<input type="radio" class="b9" name="dtype" value="0" checked>普通
+<input type="radio" class="b9" name="dtype" value="1">强制&nbsp;&nbsp;
+<input type="submit" value="区段删除邮件" class="bt1"/>
+</td></tr>
+</form></table>
+				
+				</td>
+				<td width="7" background="images/m4.gif"><img src="images/empty.gif"></td>
+			</tr>
+		
+		</table>
+		</td>
+	<tr>
+		
+		<td colspan="5">
+		<table width="100%" cellspacing="0" cellpadding="0"><tr>
+			<td width="9" height="26"><img src="images/m7.gif"></td>
+			<td background="images/m5.gif" height="26"><img src="images/empty.gif"></td>
+			<td width="9" height="26"><img src="images/m8.gif"></td>
+		</tr></table>
+		</td>
+	</tr>
+</table><br>
+</center>
+</body>
+</html>

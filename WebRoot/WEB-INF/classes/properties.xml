@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+	<!-- =================================================================== -->
+	<!-- properties:      create all properties of jars                      -->
+	<!-- =================================================================== -->
+	<!-- Library versions and JARs -->
+	<property name="lib.dir" location="lib" />
+	<property file="${lib.dir}/lib.properties" />
+	<property file="${lib.dir}/dblib.properties" />
+
+
+	<!-- =================================================================== -->
+	<!-- properties:      create all properties of building                  -->
+	<!-- =================================================================== -->
+	<!-- 建立源文件的环境 -->
+	<property name="webapp.name" value="sysadmin" />
+	<property name="data.resources" value="${basedir}/dataResources" />
+	<property name="web-config-files" value="${data.resources}/web" />
+
+	<property name="src" value="${basedir}/src" />
+	<property name="src.dao" value="${src}/dao" />
+	<property name="src.service" value="${src}/service" />
+	<property name="src.web" value="${src}/web" />
+	<property name="src.common" value="${src}/common" />
+	<property name="src.resources" value="${src}/resources" />
+	<property name="src.webroot" value="${src}/webroot" />
+
+	<property name="test" value="${basedir}/test" />
+	<property name="test.dao" value="${test}/dao" />
+	<property name="test.service" value="${test}/service" />
+	<property name="test.web" value="${test}/web" />
+	<property name="test.common" value="${test}/common" />
+
+	<!-- 建立build环境 -->
+	<property name="webRoot.home" value="${basedir}/WebRoot" />
+	<property name="webRoot.webinf.home" value="${webRoot.home}/WEB-INF" />
+	<property name="webRoot.lib.home" value="${webRoot.home}/WEB-INF/lib" />
+	<property name="webRoot.classes.home" value="${webRoot.home}/WEB-INF/classes" />
+
+	<!-- 建立tomcat环境 -->
+	<property name="tomcat.home" value="C:/Tomcat 5.0" />
+
+	<!-- 建立distribute环境 -->
+	<!--distribute :war,ear,jar-->
+	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="dist.war" value="${dist.dir}/sysadmin.war" />
+
+	<!-- =================================================================== -->
+	<!-- Classpaths:                                                         -->
+	<!-- =================================================================== -->
+
+	<path id="servlet.classpath">
+		<fileset dir="${jspapi.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<path id="jsp.classpath">
+			<fileset dir="${servletapi.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+	<path id="xdoclet.classpath">
+		<fileset dir="${xdoclet.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="dbunit.classpath">
+		<fileset dir="${dbunit.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!--驱动程序环境的建立-->
+	<!--mysql driver-->
+	<path id="mysql.classpath">
+		<fileset dir="${mysql.dir}" includes="*.jar,*.zip" />
+	</path>
+
+	<!--db2 driver-->
+	<path id="db2.classpath">
+		<fileset dir="${db2.dir}" includes="*.jar,*.zip" />
+	</path>
+
+	<!--Ms sql server driver-->
+	<path id="mssqlserver.classpath">
+		<fileset dir="${mssqlserver.dir}" includes="*.jar,*.zip" />
+	</path>
+
+	<!--oracle sql server driver-->
+	<path id="oracle.classpath">
+		<fileset dir="${oracle.dir}" includes="*.jar,*.zip" />
+	</path>
+
+	<!--sybase sql server driver-->
+	<path id="sybase.classpath">
+		<fileset dir="${sybase.dir}" includes="*.jar,*.zip" />
+	</path>
+</project>

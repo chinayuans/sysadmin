@@ -1,0 +1,7 @@
+<!ELEMENT commondb_migration (component)*>
+<!ELEMENT component (script_group)*>
+<!ATTLIST component name CDATA #IMPLIED>
+<!ELEMENT script_group (script)*>
+<!ATTLIST script_group old_ver CDATA #REQUIRED>
+<!ELEMENT script (#PCDATA)>
+<!ATTLIST script new_ver CDATA #REQUIRED>

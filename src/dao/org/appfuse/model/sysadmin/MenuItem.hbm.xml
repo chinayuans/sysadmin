@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.appfuse.model.sysadmin.MenuItem"
+        table="t_menu_item"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.String"
+            length="32"
+        >
+            <generator class="uuid.hex">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-MenuItem.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="name"
+            length="30"
+            not-null="true"
+        />
+
+        <property
+            name="parent_name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="parent_name"
+            length="30"
+            not-null="false"
+        />
+
+        <property
+            name="action"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="action"
+            length="255"
+            not-null="false"
+        />
+
+        <property
+            name="align"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="align"
+            length="10"
+            not-null="false"
+        />
+
+        <property
+            name="altImage"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="altImage"
+            length="30"
+            not-null="false"
+        />
+
+        <property
+            name="description"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="description"
+            length="50"
+            not-null="false"
+        />
+
+        <property
+            name="forward"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="forward"
+            length="50"
+            not-null="false"
+        />
+
+        <property
+            name="width"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="width"
+            length="5"
+            not-null="false"
+        />
+
+        <property
+            name="height"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="height"
+            length="5"
+            not-null="false"
+        />
+
+        <property
+            name="image"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="image"
+            length="50"
+            not-null="false"
+        />
+
+        <property
+            name="location"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="location"
+            length="255"
+            not-null="false"
+        />
+
+        <property
+            name="onclick"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="onclick"
+            length="255"
+            not-null="false"
+        />
+
+        <property
+            name="onmouseout"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="onmouseout"
+            length="255"
+            not-null="false"
+        />
+
+        <property
+            name="onmouseover"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="onmouseover"
+            length="255"
+            not-null="false"
+        />
+
+        <property
+            name="page"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="page"
+            length="255"
+            not-null="false"
+        />
+
+        <property
+            name="roles"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="roles"
+            length="100"
+            not-null="false"
+        />
+
+        <property
+            name="target"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="target"
+            length="10"
+            not-null="false"
+        />
+
+        <property
+            name="title"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="title"
+            length="30"
+            not-null="false"
+        />
+
+        <property
+            name="toolTip"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="toolTip"
+            length="100"
+            not-null="false"
+        />
+
+        <property
+            name="url"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="url"
+            length="255"
+            not-null="false"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-MenuItem.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

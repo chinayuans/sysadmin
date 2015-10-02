@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<title>HelpTip Demo</title>
+<script type="text/javascript" src="../scripts/helptip.js"></script>
+<link type="text/css" rel="StyleSheet" href="../css/helptip.css" />
+<style type="text/css">
+body {
+	font:		Small Verdana; 
+	background:	White;
+	color:		Black;
+}
+
+</style>
+
+
+
+<script type="text/javascript">
+
+var oneHelp = "One is the result of three minus two. \"One\" is also the result of 'O' + 'n' + 'e'.";
+var linkHelp = "The help tool tip was made by Erik Arvidsson for <a href='http://webfx.eae.net' target='_new'>WebFX</a>";
+var thisHelp='<b>this</b> is also a keyword in a lot of Object Oriented programming languages :-)';
+</script>
+</head>
+<body>
+<!-- 
+showHelpTip(e, sHtml, bHideSelects)这段javascript说明：
+e代表IE的事件对象，一般使用 event就可以了。
+sHtml:   插入一段html语言，用于显示帮助信息；
+bHideSelects:  true,显示该网页中所有的select控件
+               false，隐藏该网页中所有的select控件
+
+-->
+
+
+<p style="padding-bottom: 1px;">
+   This is some text and 
+   <a id="test" 
+      class="helpLink" 
+      href="?" 
+      onclick="showHelpTip(event,thisHelp, true); return false">
+      this
+    </a>
+   is a help tip. Here is another 
+   <a class="helpLink" 
+      href="?" 
+      onclick="showHelpTip(event, oneHelp, false); return false">
+      one
+    </a>.
+   Here is 
+   <a class="helpLink" 
+      href="?" 
+      onclick="showHelpTip(event, linkHelp, true); return false">
+      one
+    </a> 
+    with a link inside it.
+ </p>
+
+<p><select><option>select sucks</option></select></p>
+
+
+
+使用“view-source”这个IE命令即可查看到网页的源代码，
+具体语法为“view-source:网 址”。
+比如在IE地址栏中输入“view-source:http://www.sohu.com”，
+这时你就会发现，IE打开的并不是搜狐的网页，而是搜狐网首页的源代码！
+<p>
+    <a href="javascript:void(document.location='view-source:' + document.location)">
+    View source
+    </a> 
+</p>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+注意事项：
+菜单的菜单名不可以带有“－”，否则XTree会出错。可以改成“_”
+
+
+<html:errors/>标签无法正常使用
+
+
+user.getUserStatus()无法正常调出信息。UserAction:139行。
+user的更新一笔数据的时候出错。主要因为在User中的userid没有在UserStatus对应的记录
+
+
+出现下面的问题时如何解决：初始化时UserStatus中的userStatus_id没有，那么在User列表中会出现异常，因为getUserStatus()
+无法获得（null point）?
+
+1。文件上传
+2。在线人数统计
+3。权限管理分配  user role privilege(menu)
+4。审计日志功能
+5。发送邮件。
+6.japser report的集成工具。
+7.加入siteMesh功能.
+8.打印预览
+
+登陆的时候：html:errors标签出现问题，无法解决。
+
+
+Jboss集成进来,ToGBEncoding,

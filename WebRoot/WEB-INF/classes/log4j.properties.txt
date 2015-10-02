@@ -1,0 +1,81 @@
+#定义log4J的缺省输出信息级别(trace--少用,debug,info,warn,error,fatal)
+#同时定义Log4J的输出地方(可以是多个地方):
+#(stdout=org.apache.log4j.ConsoleAppender) ----dos控制台
+#(file=org.apache.log4j.FileAppender)       ----文件
+#(dailyFile=org.apache.log4j.DailyRollingFileAppender)----每天一个文件
+#(sizeFile=org.apache.log4j.RollingFileAppender)----文件到达一定大小的时候产生新的文件
+
+#当前仅仅定义输出到控制台，也可以：
+#log4j.rootLogger=debug, stdout ,file ,dailyFile ,sizeFile
+log4j.rootLogger=error, stdout  
+
+
+### direct log messages to stdout ###
+# 定义一种输出日志类型，及其输出格式－－－－ 控制台输出    #
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+### direct messages to file file.log ###
+# 定义一种输出日志类型，及其输出格式－－－－ 文件输出    #
+#log4j.appender.file=org.apache.log4j.FileAppender
+#log4j.appender.file.File=file.log    日志文件名字
+#log4j.appender.file.layout=org.apache.log4j.PatternLayout
+#log4j.appender.file.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+
+### direct messages to file dailyFile.log ###
+# 定义一种输出日志类型，及其输出格式－－－－ 每天一个文件输出    #
+#log4j.appender.dailyFile=org.apache.log4j.DailyRollingFileAppender
+#log4j.appender.dailyFile.File=dailyFile.log    日志文件名字
+#log4j.appender.dailyFile.layout=org.apache.log4j.PatternLayout
+#log4j.appender.dailyFile.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+
+### direct messages to file sizeFile.log ###
+# 定义一种输出日志类型，及其输出格式－－－－ 每天一个文件输出    #
+#log4j.appender.sizeFile=org.apache.log4j.RollingFileAppender
+#log4j.appender.sizeFile.File=sizeFile.log    日志文件名字
+#log4j.appender.sizeFile.layout=org.apache.log4j.PatternLayout
+#log4j.appender.sizeFile.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
+
+
+
+### set log levels - for more verbose logging change 'info' to 'debug' ###
+### 设置不同包中的不同类输出的日志 的级别。
+
+###设置自己写的程序  日志级别设置为要调试的级别。
+log4j.logger.org.appfuse=debug
+
+log4j.logger.org.hibernate=warn
+
+log4j.logger.org.springframework=warn
+
+log4j.logger.org.apache.struts.action=warn
+
+log4j.logger.org.apache=warn
+
+
+
+### 设置以net.sf.hibernate包名开头的类 只要大于等于info级别的日志可以输出,
+### 也就是程序中log.info("..."),log.warn("..."),log.error("..."),log.fatal("....")
+### 这些信息都可以输出，除了 log.debug("...") 他的信息不可以输出。
+log4j.logger.net.sf.hibernate=info
+
+### 设置以net.sf.hibernate.SQL包名开头的类 只要大于等于debug级别的日志可以输出
+log4j.logger.net.sf.hibernate.SQL=debug
+
+### 设置以net.sf.hibernate.type包名开头的类 只要大于等于info级别的日志可以输出 ###
+log4j.logger.net.sf.hibernate.type=info
+
+### 设置以net.sf.hibernate.tool.hbm2ddl包名开头的类 ###
+### 只要大于等于debug级别的日志可以输出 ###
+log4j.logger.net.sf.hibernate.tool.hbm2ddl=debug
+
+### log cache activity ###
+log4j.logger.net.sf.hibernate.cache=debug
+
+### enable the following line if you want to track down connection ###
+### leakages when using DriverManagerConnectionProvider ###
+#log4j.logger.net.sf.hibernate.connection.DriverManagerConnectionProvider=trace

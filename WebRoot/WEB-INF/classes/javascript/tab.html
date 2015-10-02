@@ -1,0 +1,110 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>tab.html</title>
+    <STYLE>
+    <!--
+    .style {font-size: 13px}
+    .selTab {border-top:solid  red;
+             border-right: solid  red;
+             border-left:  solid  red;
+             border-bottom: solid  red;
+             border-color: red ;
+             background-color:gray;
+             cursor: default;
+             }
+    .tab    { border-top:solid thin white;
+              border-left: solid thin white;
+              border-right: solid thin gray;
+              border-bottom: solid thin white;
+              cursor:default;
+              }
+    -->
+    </style>
+    
+    <script>
+    <!--
+    //tabpage 操作
+    var firstFlag=true;
+    var currentTab,tabContentID,tabcontent;
+    
+    //显示初始化页面
+    function showset()
+    {
+      if (firstFlag==true){
+           document.all["badcontent"].style.display="none";
+           document.all["goodcontent"].style.display="none";
+           
+           currentTab=base;
+           tabcontent=basecontent;
+           currentTab.className="selTab";
+           tabcontent.style.display="";
+           firstFlag=false;
+      }
+    }
+    
+    //改变tab页面所作的操作
+    function changeTabs()
+    {
+        if (window.event.srcElement.className=="tab")
+        {   
+            //关闭以前的tab页面
+            currentTab.className="tab";
+            tabcontent.style.display="none";
+            
+            //显示现在的tab页面
+            currentTab=window.event.srcElement;    //object
+            tabcontentID=currentTab.id+"content";  //name
+            tabcontent=document.all(tabcontentID);//object
+            tabcontent.style.display="";
+            currentTab.className="selTab";
+         }
+      }
+    -->
+    </script>
+  </head>
+  
+  <body onLoad="showset();" onClick="changeTabs();">
+     <table>
+         <!-- tab列-->
+         <tr>
+           <TD>
+              <table>
+                 <tr>
+                    <td id="base" class="tab">
+                       基本情况1
+                    </td>
+                    <td id="good" class="tab">
+                       基本情况2
+                    </td>
+                    <td id="bad" class="tab">
+                       基本情况3
+                    </td>
+                 </tr>
+                
+              </table>
+           </TD>
+         </tr>
+         
+         <tr id="basecontent">
+            <td> base welcome you </td>
+         </tr>  
+         <tr id="goodcontent">
+            <td> good welcome you </td>
+         </tr>  
+         <tr id="badcontent">
+            <td> bad welcome you </td>
+         </tr>  
+    </table>
+    <!--
+    使用“view-source”这个IE命令即可查看到网页的源代码，
+    具体语法为“view-source:网 址”。
+    比如在IE地址栏中输入“view-source:http://www.sohu.com”，
+    这时你就会发现，IE打开的并不是搜狐的网页，而是搜狐网首页的源代码！
+     -->
+    <a href="javascript:void(document.location='view-source:' + document.location)">
+      View source
+    </a>
+  </body>
+</html>

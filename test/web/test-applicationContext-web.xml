@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>  
+
+   <!-- 以下部分需要根据自己测试的内容,将Service的内容加入到下面配置文件中去-->
+   <!-- 这个配置相当于serviceLocator的功能. -->
+   
+   <!-- 对baseAction的测试-->
+   <bean name="/baseAction" 
+         class="org.appfuse.web.action.base.BaseAction"
+         singleton="true">
+         <property name="baseService">
+            <ref bean="baseService"/>
+         </property>
+   </bean>
+   
+   <!-- 用户管理 -->
+   <bean name="/user" 
+         class="org.appfuse.web.action.sysadmin.UserAction"
+         singleton="true">
+         <property name="userManagerService">
+            <ref bean="userManagerService"/>
+         </property>
+   </bean>
+   
+   <!-- 菜单管理功能. -->
+   <bean name="/menuItem" 
+         class="org.appfuse.web.action.sysadmin.MenuItemAction"
+         singleton="true">
+         <property name="menuItemManagerService">
+            <ref bean="menuItemManagerService"/>
+         </property>
+   </bean>
+   
+   <!-- 公司管理功能. -->
+   <bean name="/company" 
+         class="org.appfuse.web.action.sysadmin.CompanyAction"
+         singleton="true">
+         <property name="companyService">
+            <ref bean="baseService"/>
+         </property>
+   </bean>
+</beans>

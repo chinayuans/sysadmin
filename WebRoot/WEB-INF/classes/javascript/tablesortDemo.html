@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<title>Table Sorting  (WebFX)</title>
+
+<link rel="stylesheet" type="text/css" href="../css/tablesort.css">
+<script type="text/javascript" src="../scripts/tablesort.js"></script>
+
+
+</head>
+<body>
+<!-- 
+function sortTable(tableNode, nCol, bDesc, sType);
+tableNode:   指定对哪个table对象进行排序，例如<table id="demoTable"/>;
+               那么tableNode=demoTable
+nCol:        0代表第一个column,1代表第二个column
+bDesc:       true 代表降序，false 代表升序
+sType:       String,Number,DateCase,InsensitiveString代表针对什么类型进行排序。
+               
+sortColumn(event): 针对sortColumn(event)代码所在的元素排序，且这个元素必须是
+                   <table/>元素。
+-->
+
+<h2>TableSort</h2>
+
+<p>Just click at the table headers to sort by that column</p>
+
+<table cellspacing="0" onclick="sortColumn(event)">
+<thead>
+	<tr>
+		<td style="width: 60px;">Item</td>
+		<td style="width: 60px;">Name</td>
+		<td style="width: 60px;">Date</td>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>Item 3</td>
+		<td>Steven</td>
+		<td>950227</td>
+	</tr>
+	<tr>
+		<td>Item 2</td>
+		<td>Emil</td>
+		<td>990227</td>
+	</tr>
+	<tr>
+		<td>Item 1</td>
+		<td>Erik</td>
+		<td>990228</td>
+	</tr>
+	<tr>
+		<td>Item 4</td>
+		<td>Scott</td>
+		<td>960227</td>
+	</tr>
+	<tr>
+		<td>Item 7</td>
+		<td>Fabian</td>
+		<td>970227</td>
+	</tr>
+	<tr>
+		<td>Item 6</td>
+		<td>Thomas</td>
+		<td>900227</td>
+	</tr>
+	<tr>
+		<td>Item 5</td>
+		<td>Mike</td>
+		<td>880227</td>
+	</tr>
+	<tr>
+		<td>Item 8</td>
+		<td>Adam</td>
+		<td>930227</td>
+	</tr>
+	<tr>
+		<td>Item 11</td>
+		<td>Bill</td>
+		<td>940227</td>
+	</tr>
+	<tr>
+		<td>Item 10</td>
+		<td>Marc</td>
+		<td>890227</td>
+	</tr>
+	<tr>
+		<td>Item 9</td>
+		<td>Linus</td>
+		<td>980227</td>
+	</tr>
+	<tr>
+		<td>Item 12</td>
+		<td>Ronald</td>
+		<td>960227</td>
+	</tr>
+	<tr>
+		<td>Item 15</td>
+		<td>Peter</td>
+		<td>950227</td>
+	</tr>
+	<tr>
+		<td>Item 14</td>
+		<td>Carlos</td>
+		<td>910227</td>
+	</tr>
+	<tr>
+		<td>Item 13</td>
+		<td>Paul</td>
+		<td>920227</td>
+	</tr>
+	<tr>
+		<td>Item 16</td>
+		<td>Arnold</td>
+		<td>960227</td>
+	</tr>
+</tbody>
+</table>
+
+
+<p>
+Below is a table that is using a custom attribute called <code>type</code>
+in each header cell to define how to sort the column.
+</p>
+<hr/>
+
+
+<p>
+    <button onclick="sortTable(demoTable,0,true,'CaseInsensitiveString');" 
+        name=button>
+        Sort by column 1
+    </button>
+</p>
+<table id="demoTable" cellspacing="0" onclick="sortColumn(event)">
+
+<thead>
+	<tr>
+		<td style="width: 60px;" type="String">String</td>
+		<td style="width: 60px;" type="CaseInsensitiveString" title="CaseInsensitiveString">String</td>
+		<td style="width: 60px;" type="Number">Number</td>
+		<td style="width: 60px;" type="Date">Date</td>
+	</tr>
+</thead>
+<tbody>
+	<tr>
+		<td>apple</td>
+		<td>Strawberry</td>
+		<td style="text-align: right;">45</td>
+		<td>2001-03-13</td>
+	</tr>
+	<tr>
+		<td>Banana</td>
+		<td>orange</td>
+		<td style="text-align: right;">7698</td>
+		<td>1789-07-14</td>
+	</tr>
+	<tr>
+		<td>orange</td>
+		<td>Banana</td>
+		<td style="text-align: right;">4546</td>
+		<td>1949-07-04</td>
+	</tr>
+	<tr>
+		<td>Strawberry</td>
+		<td>apple</td>
+		<td style="text-align: right;">987</td>
+		<td>1975-08-19</td>
+	</tr>
+	<tr>
+		<td>Pear</td>
+		<td>blueberry</td>
+		<td style="text-align: right;">98743</td>
+		<td>2001-01-01</td>
+	</tr>
+	<tr>
+		<td>blueberry</td>
+		<td>Pear</td>
+		<td style="text-align: right;">4</td>
+		<td>2001-04-18</td>
+	</tr>
+</tbody>
+</table>
+
+</body>
+</html>

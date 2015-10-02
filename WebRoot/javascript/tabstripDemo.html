@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<title>TabStrip</title>
+<script language="javascript" src="../scripts/tabstrip.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/tabstrip.css">
+</head>
+
+<!--
+ 注意命名问题：
+ 1.tabstrip.css 中的名字： tab-button等等不可以改变。
+ 
+ 2.可以更改tabstrip.css中的tab-button的式样,变得更漂亮。
+ 
+ 3.如果 th 中的某个id命名为"tab1",那么对应的 div 中的id必须命名为"txttab1".
+ 规律是th 的id="xxx" ,div的id="txt"+"xxx"
+ 
+ -->
+
+
+<body>
+
+<table border="0" cellpadding="0" cellspacing="1" width="500" height="200" class="tab-table">
+  <tr>
+    <th id="tab1" class="tab-button">Tab 1</th>
+    <th id="tab2" class="tab-button">Tab 2</th>
+    <th id="tab3" class="tab-button">Tab 3</th>
+    <th id="tab4" class="tab-button">Tab 4</th>
+    <th id="tab5" class="tab-button">Tab 5</th>
+  </tr>
+  <tr>
+    <td colspan="5" class="tab-body" height="180">
+      <div id="txttab1" >
+       This is Tab 1, you can use <big>html</big> etc.
+      </div>
+      <div id="txttab2">
+       This is Tab 2
+      </div>
+      <div id="txttab3">
+       This is Tab 3
+      </div>
+      <div id="txttab4">
+       This is Tab 4
+      </div>
+      <div id="txttab5">
+	   This is Tab 5
+      </div>
+    </td>
+  </tr>
+</table>
+
+<script>
+  setActiveTab(document.all.tab1);
+</script>
+
+</body>
+</html>

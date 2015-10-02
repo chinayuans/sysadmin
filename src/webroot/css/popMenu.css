@@ -1,0 +1,61 @@
+/* CSS Document */
+.menutableT
+ {
+  border-left: 5 solid #666666;
+  border-right: 1 solid #666666;
+  border-top: 1 solid #666666;
+  border-bottom: 1 solid #666666;
+  font-size: 12px;
+  background-color: #FFFFFF;  
+ }
+ .menutable
+ {
+  position: absolute;
+  z-index: 100;
+  border-left: 5 solid #666666;
+  border-right: 1 solid #666666;
+  border-top: 1 solid #666666;
+  border-bottom: 1 solid #666666;
+  font-size: 12px;
+  background-color: #FFFFFF;  
+ }
+ .menutrin
+ {
+  background-color: #666666;
+  color: #FFFFFF;
+  cursor: hand;
+ }
+ .menutrout
+ {
+  color: #000000; 
+  cursor: hand;
+ } 
+ .menutd0
+ {
+  text-align: center;
+  width: 20;
+  height: 25;                   <!--改变这个修改菜单高度--->
+ }
+ .menutd1
+ {
+  text-align: right;
+  width: 50;
+  font-family: Webdings;
+ }
+ .linktd1
+ {
+  width: 46;
+ } 
+ .menutd2
+ {
+  width: 4;
+ }
+ .menuhr
+ {
+  border: 1 inset #307CE8;
+ }
+ .indentWord
+ {
+  padding-left: 2px;
+ }
+

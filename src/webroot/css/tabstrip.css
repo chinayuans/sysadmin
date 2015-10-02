@@ -1,0 +1,32 @@
+body		  { /*background: buttonface;*/
+                border: 0px; }
+.tab-table    { background: buttonface;
+                border: 0px;
+                font: menu; }
+.tab-table th { text-align: center;
+                font: normal 12px;}
+.tab-button	  { width: 70px;
+                height: 20px;
+                background: buttonface;
+                border-top: 1px solid buttonhighlight;
+                border-left: 1px solid buttonhighlight;
+                border-bottom: 1px solid buttonhighlight;
+                border-right: 1px solid buttonshadow;
+                cursor: hand;
+                padding-top: 2px; }
+.tab-selected { width: 70px;
+                height: 20px;
+                background: buttonface;
+                border-top: 1px solid buttonhighlight;
+                border-left: 1px solid buttonhighlight;
+                border-bottom: 1px solid buttonface;
+                border-right: 1px solid buttonshadow
+                cursor: hand; }
+.tab-body     { background: buttonface;
+                border-top: 0px;
+                border-left: 1px solid buttonhighlight;
+                border-bottom: 1px solid buttonshadow;
+                border-right: 1px solid buttonshadow;
+                padding: 10px; }
+.tab-body div { display: none;
+                text-align: center; }

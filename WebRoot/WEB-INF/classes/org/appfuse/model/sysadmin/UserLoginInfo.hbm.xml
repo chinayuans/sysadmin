@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 2.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.appfuse.model.sysadmin.UserLoginInfo"
+        table="t_user_login_info"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.String"
+            length="32"
+        >
+            <generator class="uuid.hex">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-UserLoginInfo.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="comments"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="comments"
+        />
+
+        <property
+            name="computer_ip"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="computer_ip"
+        />
+
+        <property
+            name="computer_name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="computer_name"
+        />
+
+        <property
+            name="login_time"
+            type="java.sql.Timestamp"
+            update="true"
+            insert="true"
+            column="login_time"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-UserLoginInfo.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

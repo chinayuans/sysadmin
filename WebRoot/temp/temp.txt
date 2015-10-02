@@ -1,0 +1,48 @@
+
+<%@ page language="java" import="java.util.*" pageEncoding="GB2312"%>
+<%
+        String path = request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName()
+                + ":" + request.getServerPort() + path + "/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+
+</head>
+<OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" 
+    width="100"
+    height="50" 
+    align="baseline"
+    codebase="http://java.sun.com/products/plugin/1.2.2/jinstall-1_2_2-win.cab#Version=1,2,2,0">
+    <PARAM NAME="code" VALUE="Para1.class">
+    <PARAM NAME="codebase" VALUE=".">
+    <PARAM NAME="type" VALUE="application/x-java-applet;version=1.2.2">
+    <COMMENT> 
+       <EMBED type="application/x-java-applet;version=1.2.2"
+        width="200" height="200" align="baseline" code="Para1.class"
+        codebase="."
+        pluginspage="http://java.sun.com/products/plugin/1.2/plugininstall.html">
+        </EMBED>
+   
+        <NOEMBED> 
+            No Java 2 support for APPLET!! 
+        </NOEMBED>
+     </COMMENT> 
+    </EMBED>
+</OBJECT>
+<applet code="Para1.class"  width="200" height="100">
+<param name="para1" value="This is para1">
+<param name="para2" value="This is para2">
+If you can see this message,your brower doesn't support Java
+</applet>
+
+
+
+<body>
+This is my JSP page.
+<br>
+</body>
+</html>

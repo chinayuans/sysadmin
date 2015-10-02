@@ -1,0 +1,97 @@
+# -- validator errors --
+errors.invalid='{0}' 无效。
+errors.maxlength='{0}' 不能大于 {1} 个字符。
+errors.minlength='{0}' 不能少于 {1} 个字符。
+errors.range='{0}' 未在 {1} 与 {2} 范围内。
+errors.required='{0}' 为必填项。
+errors.byte='{0}' 必须为byte类型。
+errors.date='{0}' 不是有效日期格式。
+errors.double='{0}' 必须为double类型。
+errors.float='{0}' 必须为float类型。
+errors.integer='{0}' 必须为一数值。
+errors.long='{0}' 必须为long类型。
+errors.short='{0}' 必须为short类型。
+errors.creditcard='{0}' 为无效信用卡号。
+errors.email='{0}' 为无效邮件地址。
+errors.phone='{0}' 为无效电话号码。
+errors.zip='{0}' 为无效邮政编码。
+
+
+# -- for field level messages --
+errors.header=<span class="fieldError">
+errors.footer=</span>
+
+maxLengthExceeded=您上传的文件太大了. 允许最大容量为 2 MB.
+
+submit=提 交
+reset=重 置
+back=返 回
+InputOrEdit.information=请在下面输入信息
+
+object.saved=信息成功保存
+object.missing=未能找到id对应的记录
+object.deleted=成功删除信息
+object.id=id
+
+
+user.saved=用户信息成功保存
+user.missing=未能找到id对应的记录
+user.deleted=成功删除用户信息
+
+user.id=用户id
+user.user_id=用户的id号码
+user.user_name=用户姓名
+user.user_password=密码
+user.userstatus_id=用户状态
+user.comments=备注
+user.firstName=第一名称
+user.lastName=第二名称
+user.birthday=用户生日
+user.login_fail=登陆失败，请重试
+
+#菜单功能
+menuItem.name=菜单名
+menuItem.title=菜单显示名
+menuItem.parent_name=父菜单名
+menuItem.description=描述
+menuItem.forward=forward
+menuItem.action=action
+menuItem.location=location
+menuItem.target=target
+menuItem.onclick=onclick
+menuItem.onmouseover=onmouseover
+menuItem.onmouseout=onmouseout
+menuItem.image=image
+menuItem.altImage=altImage
+menuItem.toolTip=toolTip
+menuItem.roles=roles
+menuItem.page=page
+menuItem.width=width
+menuItem.height=height
+menuItem.align=align
+menuItem.url=url
+
+#公司名称管理功能
+company.name=公司名称
+company.comments=备注
+
+#部门名称管理功能
+department.name=部门名称
+department.company=公司名称
+department.comments=备注
+
+#用户状态功能
+userstatus.description=用户状态
+userstatus.comments=备注
+
+#角色管理功能
+role.saved=角色信息成功保存
+role.missing=未能找到id对应的记录
+role.deleted=成功删除角色信息
+role.description=角色描述
+role.comments=备注
+
+#服务层抛出的应用异常处理
+error.rule.disobey= <li>{0} Business Rule {1} is not obeyed.</li>
+error.business.error =<li>Some error occurs when performing business logic.</li>
+

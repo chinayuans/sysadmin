@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+
+	<!-- ========================================================== -->
+	<!-- ========================================================== -->
+	<!-- ================以下内容为struts配置文件共同的部分============= -->
+	<!-- ========================================================== -->
+	<global-forwards>
+
+
+		<!--forward name="MainIndex" path=""/-->
+
+	</global-forwards>
+
+	<!-- 使用spring的requestProcessor,可以对struts的Action一族进行代理，
+		方便使用applicationContext-web.xml -->
+	<controller
+		processorClass="org.springframework.web.struts.DelegatingRequestProcessor"
+		nocache="true" maxFileSize="2M" />
+
+	<message-resources parameter="messages" />
+
+
+	<!-- spring 插件的安装,用来作为层之间的粘合剂 -->
+	<plug-in
+		className="org.springframework.web.struts.ContextLoaderPlugIn">
+		<!--包含applicationContext-dao.xml,
+			applicationContext-service.xml,
+			applicationContext-web.xml  
+		-->
+		<set-property property="contextConfigLocation"
+			value="/WEB-INF/applicationContext-dao.xml,
+                        /WEB-INF/applicationContext-service.xml,
+                        /WEB-INF/applicationContext-web.xml" />
+		<!-- value="classpath*: **/applicationContext-*.xml" 这个*只可以在spring中使用 -->
+
+	</plug-in>
+
+	<!-- 效验插件的安装,用来作为struts的javascritp和服务端验证 -->
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,
+                   /WEB-INF/sysadmin-validation.xml,
+                   /WEB-INF/custom-validation.xml" />
+	</plug-in>
+
+	<!-- struts-menu 的使用准备-->
+	<plug-in className="net.sf.navigator.menu.MenuPlugIn">
+		<set-property property="menuConfig"
+			value="/WEB-INF/menu-config.xml" />
+	</plug-in>
+
+
+</struts-config>

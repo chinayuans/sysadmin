@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE html
+	 PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+
+<body >
+
+<center>
+<table border="0" width="80%" cellspacing="0" cellpadding="0">
+	<tr>
+		<td >
+			<table width="100%" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="8" height="26"><img src="images/m11.gif"></td>
+					<td background="images/m10.gif" height="26"><img src="images/empty.gif"></td>
+					<td width="8" height="26"><img src="images/m12.gif"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	
+	<tr >
+		<td>
+			<table width="100%" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="7" background="images/m3.gif"><img src="images/empty.gif"></td>					
+					<td background="images/m6.gif" align="center" valign="top">
+					
+					
+					   将要显示的内容放置其中。
+					   
+					   <!--target="listing" 不可以删除，否则_ListAll.jsp文件得不到刷新后的数据 -->
+							<form name="companyForm" method="post" action="/sysadmin/company.do" onsubmit="return validateCompanyForm(this);">  <!--修改之处-->
+							    <input type="hidden" name="method" value="saveOne">
+							    <!--修改之处开始-->
+							    <input type="hidden" name="company.id" value="">
+							    <table border="1">
+							        <tr>
+							            <td>公司名称:</td>
+							            <td><input type="text" name="company.name" value="XXX公司"></td>
+							            <td>备注:</td>
+							            <td><input type="text" name="company.comments" value=""></td>
+							        </tr>
+							      
+							     <!--修改之处结束--> 
+							        <tr >            
+							            <td colspan='4'>
+							            <center>
+							               <input type="submit" value="提 交" class="button">
+							               <input type="reset" value="重 置" class="button">
+							               <button  class="button" onclick="hideFrame();" >返 回</button>
+							            </center>   
+							            </td>
+							        </tr>
+							    </table>
+							</form>
+							
+							
+					   
+					</td>
+					<td width="7" background="images/m4.gif"><img src="images/empty.gif"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td >
+			<table width="100%" cellspacing="0" cellpadding="0">
+				<tr>
+					<td width="9" height="26"><img src="images/m7.gif"></td>
+					<td background="images/m5.gif" height="26"><img src="images/empty.gif"></td>
+					<td width="9" height="26"><img src="images/m8.gif"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</center>
+</body>
+</html>
