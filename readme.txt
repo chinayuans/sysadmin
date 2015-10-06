@@ -1,158 +1,158 @@
 http://127.0.0.1:8080/sysadmin
 
-ÖØÒªÌáÊ¾:Ò»¶¨Òª×¢Òâ°æ±¾ÎÊÌâ.
-¹æ¶¨ÈçÏÂ: 
+é‡è¦æç¤º:ä¸€å®šè¦æ³¨æ„ç‰ˆæœ¬é—®é¢˜.
+è§„å®šå¦‚ä¸‹: 
 struts1.2.9+spring1.2RC+hibernate2.1.7
 J2ee1.3+JSTL1.0
 
-Ò»¸öÍêÕûµÄTest-Driven Development£º
-springÖĞµÄ
-classpath:  Ä¬ÈÏÇé¿öÏÂÎª/web-inf/classes,/web-inf/lib Á½¸öÄ¿Â¼ÏÂ£¬
-              Èç¹ûÒªÖ¸Ã÷/web-infÄ¿Â¼ÏÂµÄ¾ßÌåÄÚÈİ£¬±ØĞëÕâÑùÊ¹ÓÃ£º²»¿ÉÒÔÊ¹ÓÃclasspath.
-            /WEB-INF/applicationContext*.xml¡£
-example¾ÙÀı£º
-/WEB-INF/applicationContext-*.xml    £¨ Ã÷È·µÄ¾ø¶ÔÂ·¾¶£©
+ä¸€ä¸ªå®Œæ•´çš„Test-Driven Developmentï¼š
+springä¸­çš„
+classpath:  é»˜è®¤æƒ…å†µä¸‹ä¸º/web-inf/classes,/web-inf/lib ä¸¤ä¸ªç›®å½•ä¸‹ï¼Œ
+              å¦‚æœè¦æŒ‡æ˜/web-infç›®å½•ä¸‹çš„å…·ä½“å†…å®¹ï¼Œå¿…é¡»è¿™æ ·ä½¿ç”¨ï¼šä¸å¯ä»¥ä½¿ç”¨classpath.
+            /WEB-INF/applicationContext*.xmlã€‚
+exampleä¸¾ä¾‹ï¼š
+/WEB-INF/applicationContext-*.xml    ï¼ˆ æ˜ç¡®çš„ç»å¯¹è·¯å¾„ï¼‰
 classpath*:META-INF/applicationContext-*.xml 
-£¨ÔÚ/classesÄ¿Â¼ÏÂµÄÎ»ÖÃ£¬»òÕß/libÖĞ¾ßÌåjar°üµÄÎ»ÖÃ£©
+ï¼ˆåœ¨/classesç›®å½•ä¸‹çš„ä½ç½®ï¼Œæˆ–è€…/libä¸­å…·ä½“jaråŒ…çš„ä½ç½®ï¼‰
   
 
 
-ÒÔÏÂÎª²âÊÔÇı¶¯¿ª·¢µÄÏêÏ¸°¸Àı£º
+ä»¥ä¸‹ä¸ºæµ‹è¯•é©±åŠ¨å¼€å‘çš„è¯¦ç»†æ¡ˆä¾‹ï¼š
 ==================================
-DAO²ã£º
+DAOå±‚ï¼š
 ==================================
-0.Í¨¹ı½¨Á¢UserDAOTest¿ªÊ¼.
-1.±ØĞë½¨Á¢BaseDAOTest.Í¨¹ıËûÀ´µÃµ½³õÊ¼»·¾³¡£
-2.Í¨¹ıtestXXX·½·¨£¬ÒªÇó½¨Á¢ModelÖĞµÄUser,UserDAO
-3.½¨Á¢User£¬ÓÖµÃ²úÉúBaseObject.
-4.½¨Á¢UserDAO½Ó¿Ú,ÓÖµÃ²úÉúDAO½Ó¿Ú¡£
-5.Ó³ÉäÎÄ¼şuser.hbm.xmlµÄÉú³É¡£
-6.applicationContext.xmlµÄÉú³É¡£
-   Ö÷ÒªÉùÃ÷sessionFactory,transactionManager,dataSource
-7.UserDAOµÄimplementation->UserDAOHibernate
-8.applicationContext.xml¼ÌĞøĞ´£º
+0.é€šè¿‡å»ºç«‹UserDAOTestå¼€å§‹.
+1.å¿…é¡»å»ºç«‹BaseDAOTest.é€šè¿‡ä»–æ¥å¾—åˆ°åˆå§‹ç¯å¢ƒã€‚
+2.é€šè¿‡testXXXæ–¹æ³•ï¼Œè¦æ±‚å»ºç«‹Modelä¸­çš„User,UserDAO
+3.å»ºç«‹Userï¼Œåˆå¾—äº§ç”ŸBaseObject.
+4.å»ºç«‹UserDAOæ¥å£,åˆå¾—äº§ç”ŸDAOæ¥å£ã€‚
+5.æ˜ å°„æ–‡ä»¶user.hbm.xmlçš„ç”Ÿæˆã€‚
+6.applicationContext.xmlçš„ç”Ÿæˆã€‚
+   ä¸»è¦å£°æ˜sessionFactory,transactionManager,dataSource
+7.UserDAOçš„implementation->UserDAOHibernate
+8.applicationContext.xmlç»§ç»­å†™ï¼š
   UserDAO -----UserDAOHibernate.
-9.×¼±¸²âÊÔ¡£¿ÉÒÔÊ¹ÓÃant»òÕßeclipseµÄjunit¡£
-  ÕâÀïÎÒÊ¹ÓÃJUnitÔËĞĞUserDAOTest¡£ÂíÉÏ¿ÉÒÔ¿´µ½½á¹û¡£
+9.å‡†å¤‡æµ‹è¯•ã€‚å¯ä»¥ä½¿ç”¨antæˆ–è€…eclipseçš„junitã€‚
+  è¿™é‡Œæˆ‘ä½¿ç”¨JUnitè¿è¡ŒUserDAOTestã€‚é©¬ä¸Šå¯ä»¥çœ‹åˆ°ç»“æœã€‚
 
-µ½´Ë½×¶ÎDAO²ãĞ´Íê³ÉÁË¡£
-Íê³ÉÁËDAOtestcase,DAO,DAOImpl¡£
+åˆ°æ­¤é˜¶æ®µDAOå±‚å†™å®Œæˆäº†ã€‚
+å®Œæˆäº†DAOtestcase,DAO,DAOImplã€‚
 
 =================================
-Service²ã£º
+Serviceå±‚ï¼š
 =================================
-10.Ğ´UserManagerTest¿ªÊ¼¡£
-11.Ğ´BaseServiceTestÀà¡£
-12.UserManagerTest--->½Ó¿ÚUserManager.
-13.¸ù¾İUserManager--->²úÉúUserManagerImplµÄÊµÏÖÀà¡£
-14.applicationContext.xml¼ÌĞøĞ´£º
-   UserManagerImpl-----ÖĞ×¢ÈëUserDAO½Ó¿Ú
-   UserManager---------¶ÔUserManagerImpl½øĞĞÁËÊÂÎñ·â×°¡£
-ÆäÖĞÕâÀïÃæÊÂÎñµÄaopÉÏÓÃÁË¼Ì³ĞµÄË¼ÏëÀ´ÊµÏÖ¡£
-15.×¼±¸²âÊÔ¡£¿ÉÒÔÊ¹ÓÃant»òÕßeclipseµÄjunit¡£
-    ÕâÀïÎÒÊ¹ÓÃJUnitÔËĞĞUserManagerTest¡£ÂíÉÏ¿ÉÒÔ¿´µ½½á¹û¡£
-×¢Òâ£ºÒÔÉÏ²âÊÔÎªintegration test.ÒòÎªËûÊÇ½¨Á¢ÔÚDAO»ù´¡ÉÏ½øĞĞµÄ²âÊÔ¡£
-     ¿ÉÒÔ²ÉÓÃunit test£¬Ê¹ÓÃEasyMock ¿ÉÒÔ½øĞĞµ¥Ôª²âÊÔ£¬ÍÑÀëDAOµÄ»·¾³£¬
-     ÒòÎªEasyMock¿ÉÒÔÎ±ÔìDAO¡£
+10.å†™UserManagerTestå¼€å§‹ã€‚
+11.å†™BaseServiceTestç±»ã€‚
+12.UserManagerTest--->æ¥å£UserManager.
+13.æ ¹æ®UserManager--->äº§ç”ŸUserManagerImplçš„å®ç°ç±»ã€‚
+14.applicationContext.xmlç»§ç»­å†™ï¼š
+   UserManagerImpl-----ä¸­æ³¨å…¥UserDAOæ¥å£
+   UserManager---------å¯¹UserManagerImplè¿›è¡Œäº†äº‹åŠ¡å°è£…ã€‚
+å…¶ä¸­è¿™é‡Œé¢äº‹åŠ¡çš„aopä¸Šç”¨äº†ç»§æ‰¿çš„æ€æƒ³æ¥å®ç°ã€‚
+15.å‡†å¤‡æµ‹è¯•ã€‚å¯ä»¥ä½¿ç”¨antæˆ–è€…eclipseçš„junitã€‚
+    è¿™é‡Œæˆ‘ä½¿ç”¨JUnitè¿è¡ŒUserManagerTestã€‚é©¬ä¸Šå¯ä»¥çœ‹åˆ°ç»“æœã€‚
+æ³¨æ„ï¼šä»¥ä¸Šæµ‹è¯•ä¸ºintegration test.å› ä¸ºä»–æ˜¯å»ºç«‹åœ¨DAOåŸºç¡€ä¸Šè¿›è¡Œçš„æµ‹è¯•ã€‚
+     å¯ä»¥é‡‡ç”¨unit testï¼Œä½¿ç”¨EasyMock å¯ä»¥è¿›è¡Œå•å…ƒæµ‹è¯•ï¼Œè„±ç¦»DAOçš„ç¯å¢ƒï¼Œ
+     å› ä¸ºEasyMockå¯ä»¥ä¼ªé€ DAOã€‚
      
      
 =================================
-Web²ã£º
+Webå±‚ï¼š
 =================================
-×¢Òâ£ºÕâ¸ö²âÊÔ°üÀ¨Ò²Á½ÖÖ£¬Ò»ÖÖMock Testing(Ä£Äâ²âÊÔ)£¬
-	ÁíÍâÒ»ÖÖÎªIn-Container Testing(ÈİÆ÷ÄÚ²âÊÔ£¬ÔÚ
-	ÕæÊµµÄservletÈİÆ÷ÄÚ²âÊÔ).ÕâÁ½ÖÖ²âÊÔ¶¼ÊôÓÚstrutsTestCase¼¼Êõ¡£
-    ±¾´Î²âÊÔ²ÉÓÃMock Testing.
+æ³¨æ„ï¼šè¿™ä¸ªæµ‹è¯•åŒ…æ‹¬ä¹Ÿä¸¤ç§ï¼Œä¸€ç§Mock Testing(æ¨¡æ‹Ÿæµ‹è¯•)ï¼Œ
+	å¦å¤–ä¸€ç§ä¸ºIn-Container Testing(å®¹å™¨å†…æµ‹è¯•ï¼Œåœ¨
+	çœŸå®çš„servletå®¹å™¨å†…æµ‹è¯•).è¿™ä¸¤ç§æµ‹è¯•éƒ½å±äºstrutsTestCaseæŠ€æœ¯ã€‚
+    æœ¬æ¬¡æµ‹è¯•é‡‡ç”¨Mock Testing.
     Mock Testing------MockStrutsTestCase
     In-Container Testing----CatusStrutsTestCase
-16.Ğ´UserActionTest²âÊÔcase¡£
-17.¸ù¾İUserActionTest,ÓÉ´ËÎÒÃÇ¿ÉÒÔµÃµ½struts-config.xmlÖĞµÄ<form-bean/>ºÍ<action-mapping/>
-18.¸ù¾İUserActionTestµÃµ½UserAction¡£
-19.¸ù¾İUserActionÖĞµÄÄÚÈİµÃµ½messages.properties¡£
-20.¸ù¾İUserActionÊ¹ÓÃspringÕ³ºÏ¼ÁµÄÇ¿´ó×÷ÓÃ£¬ÔÚUserActionÖĞ
-   ×¢Èëservice²ãµÄUserManager£¬Ìá¹©¸øActionµ÷ÓÃservice²ãµÄ·şÎñ¡£
-   Í¬Ê±Éú³ÉapplicationContext-web.xmlÎÄ¼ş¡£ĞŞ¸Ästruts-configÖĞ
-   <controller/> <message-resources />ÄÚÈİ¡£
+16.å†™UserActionTestæµ‹è¯•caseã€‚
+17.æ ¹æ®UserActionTest,ç”±æ­¤æˆ‘ä»¬å¯ä»¥å¾—åˆ°struts-config.xmlä¸­çš„<form-bean/>å’Œ<action-mapping/>
+18.æ ¹æ®UserActionTestå¾—åˆ°UserActionã€‚
+19.æ ¹æ®UserActionä¸­çš„å†…å®¹å¾—åˆ°messages.propertiesã€‚
+20.æ ¹æ®UserActionä½¿ç”¨springç²˜åˆå‰‚çš„å¼ºå¤§ä½œç”¨ï¼Œåœ¨UserActionä¸­
+   æ³¨å…¥serviceå±‚çš„UserManagerï¼Œæä¾›ç»™Actionè°ƒç”¨serviceå±‚çš„æœåŠ¡ã€‚
+   åŒæ—¶ç”ŸæˆapplicationContext-web.xmlæ–‡ä»¶ã€‚ä¿®æ”¹struts-configä¸­
+   <controller/> <message-resources />å†…å®¹ã€‚
 
-21.MockStrutsTestCase»·¾³Îª£º
-   /WEB-INF/struts-config.xml£¬
+21.MockStrutsTestCaseç¯å¢ƒä¸ºï¼š
+   /WEB-INF/struts-config.xmlï¼Œ
    /WEB-INF/web.xml,
    /WEB-INF/applicationContext-dao.xml,
    /WEB-INF/applicationContext-service.xml,
    /WEB-INF/applicationContext-web.xml
    /WEB-INF/classes/messages.properties
    
-   ×¢Òâ£º applicationContext-dao.xml£¬
-        applicationContext-service.xml£¬
-        applicationContext-web.xml£¬
-        messages.properties±ØĞëÓëÆäËû"source folder"ÖĞµÄÄÚÈİ±£³ÖÒ»ÖÂ¡£
+   æ³¨æ„ï¼š applicationContext-dao.xmlï¼Œ
+        applicationContext-service.xmlï¼Œ
+        applicationContext-web.xmlï¼Œ
+        messages.propertieså¿…é¡»ä¸å…¶ä»–"source folder"ä¸­çš„å†…å®¹ä¿æŒä¸€è‡´ã€‚
         
-22.×¼±¸²âÊÔ¡£¿ÉÒÔÊ¹ÓÃant»òÕßeclipseµÄjunit¡£
-    ÕâÀïÎÒÊ¹ÓÃJUnitÔËĞĞUserActionTest¡£ÂíÉÏ¿ÉÒÔ¿´µ½½á¹û¡£
+22.å‡†å¤‡æµ‹è¯•ã€‚å¯ä»¥ä½¿ç”¨antæˆ–è€…eclipseçš„junitã€‚
+    è¿™é‡Œæˆ‘ä½¿ç”¨JUnitè¿è¡ŒUserActionTestã€‚é©¬ä¸Šå¯ä»¥çœ‹åˆ°ç»“æœã€‚
     
     
-×¢Òâ£ºÔÚ"source folder"ÎªtestµÄÏÂÃæ£¨test/web,test/service,test/dao£©
-	 ¶¼ÓĞÒ»¸ölog4j.xml,×¢ÒâÕâÈı¸ölog4j.xmlµÄÄÚÈİ²»Í¬£¬Ö÷ÒªÎªµÄÊÇ²é¿´²»Í¬µÄÏÔÊ¾ÄÚÈİ¡£
+æ³¨æ„ï¼šåœ¨"source folder"ä¸ºtestçš„ä¸‹é¢ï¼ˆtest/web,test/service,test/daoï¼‰
+	 éƒ½æœ‰ä¸€ä¸ªlog4j.xml,æ³¨æ„è¿™ä¸‰ä¸ªlog4j.xmlçš„å†…å®¹ä¸åŒï¼Œä¸»è¦ä¸ºçš„æ˜¯æŸ¥çœ‹ä¸åŒçš„æ˜¾ç¤ºå†…å®¹ã€‚
 	 
-¹¤³ÌÖĞµÄbuild.xmlÔİÊ±Ã»ÓĞÓÃ´¦.ÒÔºó½øĞĞ¸Ä½ø.	 
+å·¥ç¨‹ä¸­çš„build.xmlæš‚æ—¶æ²¡æœ‰ç”¨å¤„.ä»¥åè¿›è¡Œæ”¹è¿›.	 
 	 
 ============================
-hibernate2Óëhibernate3µÄÇø±ğ£º
+hibernate2ä¸hibernate3çš„åŒºåˆ«ï¼š
 ============================
 hibernate2:   net.sf.hibernate.
 hibernate3:   org.hibernate.
 
 ============================
-spring1.2.7Ö®ºóµÄÒ»Ğ©±ä»¯£º
+spring1.2.7ä¹‹åçš„ä¸€äº›å˜åŒ–ï¼š
 ============================
 file: classpath: classpath*:
 1.Must support fully qualified URLs, e.g. "file:C:/test.dat".
 2.Must support classpath pseudo-URLs, e.g. "classpath:test.dat","classpath:**/test.dat".
 3.Should support relative file paths, e.g. "WEB-INF/test.dat", "".
-4.×î¹ã·ºµÄÖ§³Ö£º"classpath*:META-INF/*-beans.xml" will find all 
+4.æœ€å¹¿æ³›çš„æ”¯æŒï¼š"classpath*:META-INF/*-beans.xml" will find all 
   *-beans.xml files in the class path, be it in "classes" directories
   or in JAR files.
 		
-String[] paths = {"classpath*:**/bean*.xml" }; // ÔÚjarÖĞ£¬»¹ÓĞclassesÄ¿Â¼ÏÂÈ¥Ñ°ÕÒÏà¹ØµÄ¶«Î÷¡£
-String[] paths = {"classpath:/com/sample/Ioc/bean.xml" }; // Ö»ÔÚclasspathÖĞÈ¥Ñ°ÕÒÏà¹ØµÄ¶«Î÷¡£
-String[] paths = {"classpath:**/*bean.xml" }; // bad expression¡£
+String[] paths = {"classpath*:**/bean*.xml" }; // åœ¨jarä¸­ï¼Œè¿˜æœ‰classesç›®å½•ä¸‹å»å¯»æ‰¾ç›¸å…³çš„ä¸œè¥¿ã€‚
+String[] paths = {"classpath:/com/sample/Ioc/bean.xml" }; // åªåœ¨classpathä¸­å»å¯»æ‰¾ç›¸å…³çš„ä¸œè¥¿ã€‚
+String[] paths = {"classpath:**/*bean.xml" }; // bad expressionã€‚
 String[] paths = {"file:D:/**/bean*.xml" };    // good expression
-String[] paths = {"/com/sample/Ioc/*bean*.xml" }; // good expression ±ØĞëÊ¹ÓÃÈ·ÇĞµÄÂ·¾¶
-String[] paths = {"com/sample/Ioc/*bean*.xml" }; // ÓëÉÏÃæÏàÍ¬µÄ±íÊ¾Ê½£¬±ØĞëÊ¹ÓÃÈ·ÇĞµÄÂ·¾¶
-String[] paths = {"/WEB-INF/*-context.xml"}; // ÓëÉÏÃæÏàÍ¬µÄ±íÊ¾Ê½£¬±ØĞëÊ¹ÓÃÈ·ÇĞµÄÂ·¾¶
+String[] paths = {"/com/sample/Ioc/*bean*.xml" }; // good expression å¿…é¡»ä½¿ç”¨ç¡®åˆ‡çš„è·¯å¾„
+String[] paths = {"com/sample/Ioc/*bean*.xml" }; // ä¸ä¸Šé¢ç›¸åŒçš„è¡¨ç¤ºå¼ï¼Œå¿…é¡»ä½¿ç”¨ç¡®åˆ‡çš„è·¯å¾„
+String[] paths = {"/WEB-INF/*-context.xml"}; // ä¸ä¸Šé¢ç›¸åŒçš„è¡¨ç¤ºå¼ï¼Œå¿…é¡»ä½¿ç”¨ç¡®åˆ‡çš„è·¯å¾„
 
 
 ============================
-ÉîÈëÑ§Ï°Java»úÖÆ£º
+æ·±å…¥å­¦ä¹ Javaæœºåˆ¶ï¼š
 ============================
-1.java.lang.ClassLoader Ñ§Ï°ËûµÄºÜ¶àÖªÊ¶ÄÚÈİ¡£
+1.java.lang.ClassLoader å­¦ä¹ ä»–çš„å¾ˆå¤šçŸ¥è¯†å†…å®¹ã€‚
 
-  classloaderËÄÖÖÀàĞÍ£º 
+  classloaderå››ç§ç±»å‹ï¼š 
   Bootstrap classloader(null), 
   Extended classloader(Launcher$ExtClassLoader.class),
   System classLoader(Launcher$AppClassLoader.class)
-  URLClassLoader (×Ô¶¨ÒåµÄclassloader)
+  URLClassLoader (è‡ªå®šä¹‰çš„classloader)
   
-  classloaderµ¼ÈëÈı¸öclassµÄ·½·¨£º
-  (1)ÔÚclasspathÖĞÕÒclassÎÄ¼ş£º
+  classloaderå¯¼å…¥ä¸‰ä¸ªclassçš„æ–¹æ³•ï¼š
+  (1)åœ¨classpathä¸­æ‰¾classæ–‡ä»¶ï¼š
       Normally, the Java virtual machine loads classes from the local file
       system in a platform-dependent manner. For example, on UNIX systems, the
       virtual machine loads classes from the directory defined by the
       <tt>CLASSPATH</tt> environment variable.
-  (2)ÕÒµ½byte[]Êı¾İ,¹¹ÔìclassÎÄ¼ş,Ê¹ÓÃ·½·¨defineClass()£º
+  (2)æ‰¾åˆ°byte[]æ•°æ®,æ„é€ classæ–‡ä»¶,ä½¿ç”¨æ–¹æ³•defineClass()ï¼š
       However, some classes may not originate from a file; they may originate
       from other sources, such as the network, or they could be constructed by an
       application.  The method {@link #defineClass(String, byte[], int, int) 
       <tt>defineClass</tt>} converts an array of bytes into an instance of class 
       <tt>Class</tt>. Instances of this newly defined class can be created using 
       {@link Class#newInstance <tt>Class.newInstance</tt>}.
-  (3)Ò»¸öclassÒıÓÃÁíÍâÒ»¸öÀà,Ê¹ÓÃloadClass()·½·¨µ¼ÈëĞèÒªµÄclass:
+  (3)ä¸€ä¸ªclasså¼•ç”¨å¦å¤–ä¸€ä¸ªç±»,ä½¿ç”¨loadClass()æ–¹æ³•å¯¼å…¥éœ€è¦çš„class:
       The methods and constructors of objects created by a class loader may
       reference other classes.  To determine the class(es) referred to, the Java
       virtual machine invokes the {@link #loadClass <tt>loadClass</tt>} method of
       the class loader that originally created the class.
    
-   Ò»Ğ©ÖØÒªµÄ·½·¨£º
+   ä¸€äº›é‡è¦çš„æ–¹æ³•ï¼š
    InputStream classLoader.getResourceAsStream(String name)
    InputStream getSystemResourceAsStream(String name)
    URL getResource(String name)
